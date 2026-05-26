@@ -6,23 +6,18 @@ This repository ships a **local development** stack. Production uses the same se
 
 | File | Purpose |
 |------|---------|
-| `docker-compose.yml` | Base stack (nginx, wordpress, mysql, redis) |
+| `docker-compose.yml` | Base stack (nginx, wordpress, mysql) |
 | `docker-compose.prod.yml` | Production overrides (debug off, MailHog/phpMyAdmin disabled) |
 | `.env.production` | Secrets and URLs (copy from `.env.production.example`, **gitignored**) |
-| `nginx/conf.d/` | Local HTTP vhost |
-| `nginx/conf.d/production/` | **Future:** TLS, `server_name`, stricter limits (keep dev config separate) |
+| `nginx/conf.d/` | Local HTTP vhost (dev-friendly PHP routing) |
+| `nginx/conf.d/production/` | **Future:** TLS, `server_name`, stricter nginx rules |
 
 ## Recommended production flow
 
 1. Copy `.env.production.example` → `.env.production` and set strong passwords.
-2. Set `REDIS_PASSWORD` and enable Redis `requirepass` (see TODO in `docker-compose.yml` redis service).
-3. Create `nginx/conf.d/production/default.conf` with:
-   - `listen 443 ssl http2`
-   - Real certificates (Let’s Encrypt or provider)
-   - `server_name` for your domain
-   - Same security locations as `nginx/conf.d/default.conf` (XML-RPC, uploads PHP block, sensitive files, PHP whitelist)
-4. Mount production nginx config in `docker-compose.prod.yml` (commented example included).
-5. Start:
+2. Create `nginx/conf.d/production/default.conf` with TLS, real `server_name`, and tighter rules (uploads PHP deny, sensitive files, optional PHP whitelist).
+3. Mount production nginx config in `docker-compose.prod.yml` (commented example included).
+4. Start:
 
    ```bash
    docker compose --env-file .env.production \
@@ -36,20 +31,20 @@ This repository ships a **local development** stack. Production uses the same se
 - No public MySQL port (already internal-only)
 - No phpMyAdmin or MailHog on public networks
 - Real SMTP (not MailHog)
-- Unique `WP_CACHE_KEY_SALT` and `REDIS_PASSWORD`
-- Restrict who can reach phpMyAdmin if you ever enable it (VPN / SSH tunnel only)
+- Unique `WP_CACHE_KEY_SALT`
+- Optional later: Redis service, PHP redis extension, object cache plugin
 
 ## Nginx separation
 
-Keep **development** and **production** vhosts in separate directories so local changes never break TLS or domain rules:
+Keep **development** and **production** vhosts in separate directories:
 
 ```
 nginx/
-├── conf.d/default.conf          # local :8080
-└── conf.d/production/           # add when deploying (not required for local dev)
-    └── default.conf             # HTTPS, production server_name
+├── conf.d/default.conf          # local :8080, no-cache assets, permissive PHP
+└── conf.d/production/           # HTTPS + stricter rules when deploying
+    └── default.conf
 ```
 
 ## WooCommerce
 
-No compose changes required — use the same `wordpress` image (PHP 8.3 + extensions). Ensure production cron is handled (system cron calling `wp cron event run` or traffic to `wp-cron.php`).
+Use the same `wordpress` image (PHP 8.3 + extensions). Ensure production cron is handled (system cron or `wp-cron.php`).

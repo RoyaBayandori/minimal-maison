@@ -1,1 +1,2 @@
-# Add production vhost here (TLS, server_name). See docs/PRODUCTION.md
+# Production vhost: TLS, server_name, stricter PHP rules (optional whitelist).
+# Dev vhost stays in ../default.conf — see docs/PRODUCTION.md

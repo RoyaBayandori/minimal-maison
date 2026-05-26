@@ -42,22 +42,11 @@ if ( ! defined( 'WPLANG' ) && getenv( 'WORDPRESS_LOCALE' ) ) {
 	define( 'WPLANG', getenv( 'WORDPRESS_LOCALE' ) );
 }
 
-// Redis object cache (requires Redis Object Cache plugin)
-if ( ! defined( 'WP_REDIS_HOST' ) ) {
-	define( 'WP_REDIS_HOST', getenv( 'WP_REDIS_HOST' ) ?: 'redis' );
-}
-if ( ! defined( 'WP_REDIS_PORT' ) ) {
-	define( 'WP_REDIS_PORT', (int) ( getenv( 'WP_REDIS_PORT' ) ?: 6379 ) );
-}
-$redis_password = getenv( 'WP_REDIS_PASSWORD' ) ?: getenv( 'REDIS_PASSWORD' );
-if ( $redis_password && ! defined( 'WP_REDIS_PASSWORD' ) ) {
-	define( 'WP_REDIS_PASSWORD', $redis_password );
-}
 if ( ! defined( 'WP_CACHE_KEY_SALT' ) ) {
 	define( 'WP_CACHE_KEY_SALT', getenv( 'WP_CACHE_KEY_SALT' ) ?: 'minimal-maison:' );
 }
 
-// WooCommerce-ready: memory, SSL behind proxy, cron
+// WooCommerce-ready: memory, SSL behind proxy
 if ( ! defined( 'WP_MEMORY_LIMIT' ) ) {
 	define( 'WP_MEMORY_LIMIT', getenv( 'WP_MEMORY_LIMIT' ) ?: '256M' );
 }

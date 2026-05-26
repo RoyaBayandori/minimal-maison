@@ -21,7 +21,7 @@ services:
       - ./logs/nginx:/var/log/nginx
     depends_on:
       wordpress:
-        condition: service_healthy
+        condition: service_started
     networks:
       - mm-network
     healthcheck:
@@ -31,7 +31,7 @@ services:
       retries: 3
       start_period: 10s
 
-  # WordPress core + PHP 8.3 FPM (custom image: Redis ext, WooCommerce-ready)
+  # WordPress core + PHP 8.3 FPM (custom image: WooCommerce-ready — see docker/php/Dockerfile)
   wordpress:
     build:
       context: .
@@ -57,9 +57,6 @@ services:
           require_once '/usr/local/etc/wordpress/wp-config-extra.php';
         }
       WORDPRESS_LOCALE: ${WORDPRESS_LOCALE:-fa_IR}
-      WP_REDIS_HOST: redis
-      WP_REDIS_PORT: 6379
-      WP_REDIS_PASSWORD: ${REDIS_PASSWORD:-}
       WP_ENVIRONMENT_TYPE: ${WP_ENVIRONMENT_TYPE:-local}
       WP_MEMORY_LIMIT: ${WP_MEMORY_LIMIT:-256M}
       WP_MAX_MEMORY_LIMIT: ${WP_MAX_MEMORY_LIMIT:-512M}
@@ -69,16 +66,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-      redis:
-        condition: service_healthy
     networks:
       - mm-network
-    healthcheck:
-      test: ["CMD-SHELL", "php-fpm -t && test -S /var/run/php-fpm.sock 2>/dev/null || pgrep -x php-fpm >/dev/null"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 90s
 
   # MySQL: internal network only — no host port (phpMyAdmin/wp-cli reach via service name)
   mysql:
@@ -102,26 +91,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
-
-  # Redis object cache backend (internal only)
-  # TODO(production): set REDIS_PASSWORD in .env.production and enable requirepass, e.g.:
-  #   command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD}"]
-  #   healthcheck: use redis-cli -a "$REDIS_PASSWORD" ping
-  #   WP_REDIS_PASSWORD is already passed to wordpress when REDIS_PASSWORD is set.
-  redis:
-    image: redis:7-alpine
-    container_name: mm-redis
-    restart: unless-stopped
-    command: ["redis-server", "--appendonly", "yes"]
-    volumes:
-      - redis_data:/data
-    networks:
-      - mm-network
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   # DB admin UI — connects to mysql:3306 on mm-network (no public MySQL port required)
   phpmyadmin:
@@ -153,7 +122,7 @@ services:
     networks:
       - mm-network
 
-  # On-demand WP-CLI (WooCommerce, language packs, redis-cache, etc.)
+  # On-demand WP-CLI (WooCommerce, language packs, etc.)
   wpcli:
     image: wordpress:cli-php8.3
     container_name: mm-wpcli
@@ -166,7 +135,7 @@ services:
       mysql:
         condition: service_healthy
       wordpress:
-        condition: service_healthy
+        condition: service_started
     networks:
       - mm-network
     entrypoint: ["wp", "--allow-root"]
@@ -177,8 +146,6 @@ volumes:
     name: mm_wordpress_data
   mysql_data:
     name: mm_mysql_data
-  redis_data:
-    name: mm_redis_data
 
 networks:
   mm-network:

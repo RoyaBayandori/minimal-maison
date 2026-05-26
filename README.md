@@ -2,14 +2,14 @@
 
 Production-grade Docker development environment for **Minimal** — a luxury custom WordPress + WooCommerce site (Persian RTL, Iran).
 
-Stack: **nginx** + **PHP 8.3 FPM** + **MySQL 8** + **Redis** + **phpMyAdmin** + **MailHog**. No Apache.
+Stack: **nginx** + **PHP 8.3 FPM** + **MySQL 8** + **phpMyAdmin** + **MailHog**. No Apache.
 
 ## Project structure
 
 ```
 minimal-maison/
 ├── docker/
-│   ├── php/                 # Custom WordPress PHP-FPM image (Redis, WooCommerce extensions)
+│   ├── php/                 # Custom WordPress PHP-FPM image (WooCommerce extensions)
 │   ├── mysql/               # MySQL tuning (utf8mb4 / Persian)
 │   ├── wordpress/           # wp-config-extra.php
 │   └── scripts/             # backup-db.sh
@@ -80,8 +80,6 @@ minimal-maison/
 ```bash
 # Examples
 make wp plugin install woocommerce --activate
-make wp plugin install redis-cache --activate
-make wp redis enable
 make wp option update blogname "مینیمال"
 ```
 
@@ -108,12 +106,6 @@ docker compose up -d wordpress
 ```
 
 Logs: `wordpress/wp-content/debug.log` (when `WP_DEBUG_LOG` is true).
-
-## Redis object cache
-
-1. Install the [Redis Object Cache](https://wordpress.org/plugins/redis-cache/) plugin.
-2. Enable: `make wp redis enable`
-3. Constants `WP_REDIS_*` are set in `docker/wordpress/wp-config-extra.php`.
 
 ## WooCommerce
 
@@ -144,7 +136,8 @@ make backup
 - Directory listing disabled (`autoindex off`)
 - XML-RPC blocked (nginx + mu-plugin)
 - Sensitive files blocked (`.env`, `wp-config.php`, etc.)
-- PHP execution blocked in **`uploads/` only**; other PHP uses a core/admin whitelist
+- PHP execution blocked in **`uploads/`**; standard PHP routing elsewhere (dev-friendly for WooCommerce plugins)
+- Static assets use **no-cache** headers (Vite/Tailwind iteration)
 - Rate limiting on `wp-login.php` and `wp-admin` PHP
 - `server_tokens off`, security headers
 - MySQL not exposed on host ports (phpMyAdmin uses internal `mysql:3306`)
@@ -155,7 +148,6 @@ make backup
 |-------------------|----------------------|
 | `mm_wordpress_data` | WordPress core files |
 | `mm_mysql_data`     | Database             |
-| `mm_redis_data`     | Redis AOF            |
 
 `wp-content` is bind-mounted from `./wordpress/wp-content` for version control of themes/plugins.
 

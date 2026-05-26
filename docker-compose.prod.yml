@@ -26,10 +26,6 @@ services:
   mysql:
     restart: always
 
-  redis:
-    restart: always
-    # TODO: enable when REDIS_PASSWORD is set — see redis service comment in docker-compose.yml
-
   # Do not expose phpMyAdmin in production; use SSH tunnel or remove service.
   phpmyadmin:
     profiles:
