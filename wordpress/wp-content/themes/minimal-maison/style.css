@@ -1,0 +1,15 @@
+/*
+Theme Name: Minimal Maison
+Theme URI: https://minimal.maison
+Author: Minimal Maison
+Author URI: https://minimal.maison
+Description: Luxury custom theme for Minimal — premium jewelry (Iran). RTL-ready, WooCommerce-compatible.
+Version: 1.0.0
+Requires at least: 6.4
+Tested up to: 6.8
+Requires PHP: 8.3
+Text Domain: minimal-maison
+Domain Path: /languages
+*/
+
+/* Theme styles are built separately (e.g. Vite/Tailwind). This file satisfies WordPress theme detection. */

@@ -1,0 +1,13 @@
+[mysqld]
+# UTF-8 full support (Persian / RTL content)
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+default-authentication-plugin = caching_sha2_password
+
+# Performance tuning for development
+innodb_buffer_pool_size = 256M
+innodb_log_file_size = 64M
+max_connections = 100
+
+[client]
+default-character-set = utf8mb4

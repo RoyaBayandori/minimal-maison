@@ -1,0 +1,40 @@
+# Minimal Maison — production overrides (stub)
+#
+# Usage:
+#   cp .env.production.example .env.production
+#   docker compose --env-file .env.production \
+#     -f docker-compose.yml -f docker-compose.prod.yml up -d
+#
+# See docs/PRODUCTION.md for TLS, nginx layout, and secrets.
+
+services:
+  wordpress:
+    restart: always
+    environment:
+      WP_ENVIRONMENT_TYPE: production
+      WP_DEBUG: "false"
+      WP_DEBUG_LOG: "false"
+      WP_DEBUG_DISPLAY: "false"
+      FORCE_SSL_ADMIN: "true"
+
+  nginx:
+    restart: always
+    # Production: mount nginx/conf.d/production/ instead of conf.d/ (TLS, real server_name)
+    # volumes:
+    #   - ./nginx/conf.d/production:/etc/nginx/conf.d:ro
+
+  mysql:
+    restart: always
+
+  redis:
+    restart: always
+    # TODO: enable when REDIS_PASSWORD is set — see redis service comment in docker-compose.yml
+
+  # Do not expose phpMyAdmin in production; use SSH tunnel or remove service.
+  phpmyadmin:
+    profiles:
+      - disabled
+
+  mailhog:
+    profiles:
+      - disabled
