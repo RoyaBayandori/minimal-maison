@@ -1,0 +1,79 @@
+{
+    "key": "group_mm_testimonial_details",
+    "title": "Testimonial Details",
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "mm_testimonial"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "fields": [
+        {
+            "ID": 0,
+            "key": "field_mm_testimonial_quote",
+            "label": "نقل‌قول",
+            "name": "testimonial_quote",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "textarea",
+            "value": null,
+            "menu_order": 0,
+            "instructions": "",
+            "required": false,
+            "id": "",
+            "class": "",
+            "conditional_logic": false,
+            "parent": "group_mm_testimonial_details",
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "rows": 4,
+            "_name": "testimonial_quote",
+            "_valid": 1,
+            "default_value": "",
+            "new_lines": "",
+            "maxlength": "",
+            "placeholder": ""
+        },
+        {
+            "ID": 0,
+            "key": "field_mm_testimonial_attribution",
+            "label": "نوع سفارش \/ نام",
+            "name": "testimonial_attribution",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "text",
+            "value": null,
+            "menu_order": 1,
+            "instructions": "در صورت خالی بودن، عنوان نوشته استفاده می‌شود.",
+            "required": false,
+            "id": "",
+            "class": "",
+            "conditional_logic": false,
+            "parent": "group_mm_testimonial_details",
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "_name": "testimonial_attribution",
+            "_valid": 1,
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        }
+    ]
+}

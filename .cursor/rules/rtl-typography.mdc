@@ -1,0 +1,55 @@
+---
+description: Persian RTL typography — mm-editorial alignment ownership
+globs: wordpress/wp-content/themes/minimal-maison/**/*.{css,php}
+alwaysApply: false
+---
+
+# Minimal Maison — RTL typography (v1.1 Phase 1)
+
+Site locale is Persian (`fa-IR`, `dir="rtl"`). Under RTL, **`text-start` = reading-start (physical right)**. **`text-end` = inline-end (physical left)** and breaks multiline editorial alignment.
+
+## `mm-editorial` — alignment owner
+
+The **`mm-editorial`** primitive is the single source of truth for editorial RTL text alignment. It owns **`text-start` only** — no width, margin, padding, color, typography, or spacing.
+
+Editorial surfaces inside `mm-editorial` **inherit alignment from the primitive root**. Do not set alignment on children:
+
+- H1, H2, H3
+- Lede / lead paragraphs
+- Body copy
+- Eyebrows
+- Editorial CTA text (inline links in editorial columns)
+
+```css
+/* ✅ GOOD — primitive owns alignment; section wrapper owns layout */
+.mm-hero-cinematic__content {
+  @apply me-auto ms-0 w-full max-w-[36rem] ...;
+}
+.mm-editorial {
+  @apply text-start;
+}
+
+/* ❌ FORBIDDEN — split alignment architecture */
+.mm-hero-cinematic__content {
+  @apply text-end;
+}
+.mm-hero-cinematic__heading {
+  @apply text-start;
+}
+```
+
+## Forbidden patterns
+
+- **`text-end` on editorial wrappers**
+- **Wrapper `text-end` + child `text-start`** (split alignment)
+- **Child alignment overrides inside `mm-editorial`** (e.g. `text-start` on H1 when parent is `mm-editorial`)
+
+## Allowed patterns (not editorial)
+
+- **`text-center`** — symmetric modules (section headers, form intros, notices)
+- **`justify-end` / `items-end`** — flex/grid layout chrome (header cart, bottom-aligned hero frame), not text alignment
+- **`dir="ltr"`** + `text-start` — phone, email, URL, and numeric input islands
+
+## Prefer logical utilities
+
+Use `text-start`, `ms-*`, `me-*`, `ps-*`, `pe-*`, `border-s`. Avoid physical `text-left`, `text-right`, `ml-*`, `mr-*` unless LTR-isolated.

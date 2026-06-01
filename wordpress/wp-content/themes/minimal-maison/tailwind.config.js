@@ -26,6 +26,11 @@ export default {
 					300: '#d8c59a',
 					400: '#c7ae78',
 					500: '#b59559',
+					royal: '#B89A5A',
+				},
+				emerald: {
+					deep: '#0F3D2E',
+					forest: '#1A4D3E',
 				},
 				neutral: {
 					50: '#fafaf9',

@@ -105,22 +105,28 @@ function minimal_maison_enqueue_assets(): void {
 	$entry = $manifest[ $entry_key ];
 
 	if ( ! empty( $entry['file'] ) ) {
+		$js_path = MM_THEME_DIR . '/dist/' . ltrim( $entry['file'], '/' );
+		$version = is_readable( $js_path ) ? (string) filemtime( $js_path ) : MM_THEME_VERSION;
+
 		wp_enqueue_script(
 			'minimal-maison-app',
 			MM_THEME_URI . '/dist/' . ltrim( $entry['file'], '/' ),
 			array(),
-			MM_THEME_VERSION,
+			$version,
 			true
 		);
 	}
 
 	if ( ! empty( $entry['css'] ) && is_array( $entry['css'] ) ) {
 		foreach ( $entry['css'] as $index => $css_file ) {
+			$css_path = MM_THEME_DIR . '/dist/' . ltrim( $css_file, '/' );
+			$version  = is_readable( $css_path ) ? (string) filemtime( $css_path ) : MM_THEME_VERSION;
+
 			wp_enqueue_style(
 				'minimal-maison-app-' . $index,
 				MM_THEME_URI . '/dist/' . ltrim( $css_file, '/' ),
 				array(),
-				MM_THEME_VERSION
+				$version
 			);
 		}
 	}
