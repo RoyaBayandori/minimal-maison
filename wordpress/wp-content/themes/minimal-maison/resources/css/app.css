@@ -169,67 +169,41 @@
 	}
 
 	.mm-craft-process {
-		@apply bg-[#faf8f5] py-20 md:py-28 lg:py-32;
+		@apply bg-ivory-100 py-20 md:py-28 lg:py-32;
+	}
+
+	.mm-craft-process__frame {
+		@apply max-w-[34rem];
 	}
 
 	.mm-craft-process__header {
-		@apply mb-14 max-w-copy md:mb-16 lg:mb-20;
-	}
-
-	.mm-craft-process__eyebrow {
-		@apply mb-6 text-[0.65rem] font-light tracking-[0.22em] text-ink-900/50 md:mb-7;
+		@apply mb-10 md:mb-12 lg:mb-14;
 	}
 
 	.mm-craft-process__heading {
-		@apply mb-6 text-[1.75rem] font-extralight leading-[1.45] text-ink-900 md:mb-7 md:text-display-sm md:leading-[1.35];
+		@apply mb-3 max-w-[34rem] text-[1.8rem] font-medium leading-[1.4] text-ink-900 md:mb-4 md:text-[2.15rem] md:leading-[1.32] lg:text-[2.35rem] lg:leading-[1.28];
+		font-family: Georgia, 'Times New Roman', serif;
 	}
 
 	.mm-craft-process__intro {
-		@apply max-w-[36rem] text-[0.97rem] font-light leading-[2.1] text-ink-900/60 md:text-base md:leading-[2.05];
+		@apply max-w-[34rem] text-[0.9375rem] font-light leading-[2.05] text-ink-900/50 md:text-base md:leading-[2];
 	}
 
-	.mm-craft-process__timeline {
-		@apply grid grid-cols-1 gap-12 md:gap-14 lg:grid-cols-4 lg:gap-8 xl:gap-12;
+	.mm-craft-process__steps {
+		@apply m-0 list-none p-0;
 	}
 
 	.mm-craft-process__step {
-		@apply relative grid grid-cols-[auto_1fr] gap-x-7 lg:block;
-	}
-
-	.mm-craft-process__step:not(:last-child)::after {
-		@apply absolute -bottom-6 start-3 h-px w-[calc(100%-0.75rem)] bg-gold-300/20 content-[''] lg:hidden;
-	}
-
-	.mm-craft-process__marker {
-		@apply relative flex w-6 justify-center lg:mb-6 lg:w-auto lg:justify-start;
-	}
-
-	.mm-craft-process__marker::before {
-		@apply absolute inset-y-0 start-1/2 -z-10 w-px -translate-x-1/2 bg-gold-300/30 content-[''] lg:hidden;
-	}
-
-	.mm-craft-process__step:first-child .mm-craft-process__marker::before {
-		@apply top-3;
-	}
-
-	.mm-craft-process__step:last-child .mm-craft-process__marker::before {
-		@apply bottom-3;
-	}
-
-	.mm-craft-process__number {
-		@apply text-[0.7rem] font-light tracking-[0.18em] text-gold-500 lg:text-xs;
-	}
-
-	.mm-craft-process__content {
-		@apply pb-2 lg:pb-0;
+		@apply border-t border-ink-900/10 pt-8 first:border-t-0 first:pt-0 md:pt-9;
 	}
 
 	.mm-craft-process__title {
-		@apply mb-3 text-xl font-light leading-snug text-ink-900 md:text-[1.35rem];
+		@apply mb-3 text-base font-medium leading-[1.55] tracking-[0.08em] text-ink-900/90 md:mb-3.5;
+		font-family: Georgia, 'Times New Roman', serif;
 	}
 
 	.mm-craft-process__text {
-		@apply max-w-[18rem] text-sm font-light leading-[2] text-ink-900/60 md:text-[0.95rem] lg:max-w-none;
+		@apply max-w-[32rem] text-[0.97rem] font-light leading-[2.15] text-ink-900/60 md:text-base md:leading-[2.1];
 	}
 
 	.mm-featured-creations {

@@ -207,42 +207,40 @@ function mm_home_philosophy_paragraphs(): array {
 }
 
 /**
- * Craft process timeline steps from ACF repeater only.
+ * Craft Process steps from homepage group fields (ACF Free).
  *
- * @return array<int, array{number: string, title: string, text: string}>
+ * Display order is defined by the registry below — not by field name sorting.
+ *
+ * @return array<int, array{title: string, text: string}>
  */
 function mm_home_craft_steps(): array {
-	if ( ! mm_acf_available() ) {
-		return array();
-	}
-
-	$post_id = mm_homepage_post_id();
-
-	if ( ! $post_id ) {
-		return array();
-	}
-
-	$rows = get_field( 'craft_steps', $post_id );
-
-	if ( ! is_array( $rows ) || empty( $rows ) ) {
-		return array();
-	}
+	$field_names = array(
+		'craft_step_consultation',
+		'craft_step_design',
+		'craft_step_approval',
+		'craft_step_production',
+		'craft_step_delivery',
+	);
 
 	$steps = array();
 
-	foreach ( $rows as $row ) {
-		$number = isset( $row['step_number'] ) ? trim( (string) $row['step_number'] ) : '';
-		$title  = isset( $row['step_title'] ) ? trim( (string) $row['step_title'] ) : '';
-		$text   = isset( $row['step_text'] ) ? trim( (string) $row['step_text'] ) : '';
+	foreach ( $field_names as $field_name ) {
+		$group = mm_home_acf_value( $field_name );
+
+		if ( ! is_array( $group ) ) {
+			continue;
+		}
+
+		$title = isset( $group['title'] ) ? trim( (string) $group['title'] ) : '';
+		$text  = isset( $group['text'] ) ? trim( (string) $group['text'] ) : '';
 
 		if ( '' === $title && '' === $text ) {
 			continue;
 		}
 
 		$steps[] = array(
-			'number' => $number,
-			'title'  => $title,
-			'text'   => $text,
+			'title' => $title,
+			'text'  => $text,
 		);
 	}
 

@@ -7,6 +7,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+require MM_THEME_DIR . '/inc/acf/craft-step-fields.php';
+
 /**
  * Whether field groups are loaded from acf-json files.
  */
@@ -157,10 +159,11 @@ function mm_acf_register_field_groups(): void {
 					'type'  => 'tab',
 				),
 				array(
-					'key'   => 'field_mm_craft_eyebrow',
-					'label' => __( 'برچسب بخش', 'minimal-maison' ),
-					'name'  => 'craft_eyebrow',
-					'type'  => 'text',
+					'key'          => 'field_mm_craft_eyebrow',
+					'label'        => __( 'برچسب بخش', 'minimal-maison' ),
+					'name'         => 'craft_eyebrow',
+					'type'         => 'text',
+					'instructions' => __( 'Legacy — not rendered on the homepage.', 'minimal-maison' ),
 				),
 				array(
 					'key'   => 'field_mm_craft_heading',
@@ -175,15 +178,17 @@ function mm_acf_register_field_groups(): void {
 					'type'  => 'textarea',
 					'rows'  => 2,
 				),
+				...mm_acf_craft_step_group_fields(),
 				array(
 					'key'          => 'field_mm_craft_steps',
-					'label'        => __( 'مراحل', 'minimal-maison' ),
+					'label'        => __( 'مراحل (Legacy)', 'minimal-maison' ),
 					'name'         => 'craft_steps',
 					'type'         => 'repeater',
 					'layout'       => 'block',
 					'min'          => 1,
 					'max'          => 4,
 					'button_label' => __( 'افزودن مرحله', 'minimal-maison' ),
+					'instructions' => __( 'Legacy — no longer used. Use the step groups above.', 'minimal-maison' ),
 					'sub_fields'   => array(
 						array(
 							'key'   => 'field_mm_craft_step_number',
