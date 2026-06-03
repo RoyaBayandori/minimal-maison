@@ -207,11 +207,29 @@ function mm_home_philosophy_paragraphs(): array {
 }
 
 /**
+ * Normalize an ACF image subfield to an attachment ID.
+ *
+ * @param mixed $image ACF image value (ID or array).
+ * @return int
+ */
+function mm_acf_image_to_id( $image ): int {
+	if ( is_array( $image ) && ! empty( $image['ID'] ) ) {
+		return (int) $image['ID'];
+	}
+
+	if ( is_numeric( $image ) ) {
+		return (int) $image;
+	}
+
+	return 0;
+}
+
+/**
  * Craft Process steps from homepage group fields (ACF Free).
  *
  * Display order is defined by the registry below — not by field name sorting.
  *
- * @return array<int, array{title: string, text: string}>
+ * @return array<int, array{title: string, text: string, image_id: int}>
  */
 function mm_home_craft_steps(): array {
 	$field_names = array(
@@ -231,20 +249,76 @@ function mm_home_craft_steps(): array {
 			continue;
 		}
 
-		$title = isset( $group['title'] ) ? trim( (string) $group['title'] ) : '';
-		$text  = isset( $group['text'] ) ? trim( (string) $group['text'] ) : '';
+		$title    = isset( $group['title'] ) ? trim( (string) $group['title'] ) : '';
+		$text     = isset( $group['text'] ) ? trim( (string) $group['text'] ) : '';
+		$image_id = isset( $group['image'] ) ? mm_acf_image_to_id( $group['image'] ) : 0;
 
-		if ( '' === $title && '' === $text ) {
+		if ( '' === $title && '' === $text && $image_id <= 0 ) {
 			continue;
 		}
 
 		$steps[] = array(
-			'title' => $title,
-			'text'  => $text,
+			'title'    => $title,
+			'text'     => $text,
+			'image_id' => $image_id,
 		);
 	}
 
 	return $steps;
+}
+
+/**
+ * Index of the first Craft Process step that has an image.
+ *
+ * @param array<int, array{title: string, text: string, image_id: int}> $steps Craft steps.
+ * @return int|null
+ */
+function mm_home_craft_default_image_index( array $steps ): ?int {
+	foreach ( $steps as $index => $step ) {
+		if ( ! empty( $step['image_id'] ) ) {
+			return (int) $index;
+		}
+	}
+
+	return null;
+}
+
+/**
+ * Whether any Craft Process step has an image.
+ *
+ * @param array<int, array{title: string, text: string, image_id: int}> $steps Craft steps.
+ * @return bool
+ */
+function mm_home_craft_has_preview_images( array $steps ): bool {
+	return null !== mm_home_craft_default_image_index( $steps );
+}
+
+/**
+ * Render a Craft Process step image for the preview panel.
+ *
+ * @param int  $image_id Attachment ID.
+ * @param bool $eager    Whether to load eagerly (default active image).
+ * @return string
+ */
+function mm_render_craft_step_image( int $image_id, bool $eager = false ): string {
+	if ( $image_id <= 0 ) {
+		return '';
+	}
+
+	$attrs = array(
+		'class'    => 'mm-craft-process__preview-image',
+		'loading'  => $eager ? 'eager' : 'lazy',
+		'decoding' => 'async',
+		'sizes'    => '(min-width: 1024px) 48vw, 100vw',
+	);
+
+	if ( $eager ) {
+		$attrs['fetchpriority'] = 'high';
+	}
+
+	$html = wp_get_attachment_image( $image_id, 'large', false, $attrs );
+
+	return $html ? $html : '';
 }
 
 /**
