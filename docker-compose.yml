@@ -63,6 +63,11 @@ services:
       WP_HOME: ${WP_HOME:-}
       WP_SITEURL: ${WP_SITEURL:-}
       DISALLOW_FILE_EDIT: ${DISALLOW_FILE_EDIT:-true}
+      MM_INSTAGRAM_URL: ${MM_INSTAGRAM_URL:-}
+      MM_WHATSAPP_URL: ${MM_WHATSAPP_URL:-}
+      MM_WHATSAPP_PHONE: ${MM_WHATSAPP_PHONE:-}
+      MM_CONTACT_EMAIL: ${MM_CONTACT_EMAIL:-}
+      MM_CONTACT_PHONE: ${MM_CONTACT_PHONE:-}
     depends_on:
       mysql:
         condition: service_healthy

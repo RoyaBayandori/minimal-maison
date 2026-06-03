@@ -75,6 +75,61 @@ function mm_home_url( string $field_name ): string {
 }
 
 /**
+ * Read a homepage ACF field value only — no PHP theme defaults.
+ *
+ * @param string $field_name ACF field name.
+ * @return mixed
+ */
+function mm_home_acf_value( string $field_name ) {
+	if ( ! mm_acf_available() ) {
+		return '';
+	}
+
+	$post_id = mm_homepage_post_id();
+
+	if ( ! $post_id ) {
+		return '';
+	}
+
+	$value = get_field( $field_name, $post_id );
+
+	if ( null === $value || false === $value ) {
+		return '';
+	}
+
+	return $value;
+}
+
+/**
+ * Echo escaped homepage ACF text — no PHP theme defaults.
+ *
+ * @param string $field_name ACF field name.
+ */
+function mm_home_acf_text( string $field_name ): void {
+	echo esc_html( trim( (string) mm_home_acf_value( $field_name ) ) );
+}
+
+/**
+ * Homepage ACF URL — no PHP theme defaults; empty when unset.
+ *
+ * @param string $field_name ACF field name.
+ * @return string
+ */
+function mm_home_acf_url( string $field_name ): string {
+	$url = trim( (string) mm_home_acf_value( $field_name ) );
+
+	if ( '' === $url ) {
+		return '';
+	}
+
+	if ( str_starts_with( $url, '#' ) || str_contains( $url, '://' ) ) {
+		return $url;
+	}
+
+	return home_url( $url );
+}
+
+/**
  * About section paragraphs from ACF repeater or defaults.
  *
  * @return string[]
@@ -107,6 +162,136 @@ function mm_home_about_paragraphs(): array {
 	}
 
 	return mm_home_default_about_paragraphs();
+}
+
+/**
+ * Whether the Brand Philosophy section should render.
+ */
+function mm_should_show_philosophy(): bool {
+	$heading = trim( (string) mm_home_acf_value( 'philosophy_heading' ) );
+	$body    = trim( (string) mm_home_acf_value( 'philosophy_body' ) );
+
+	return '' !== $heading || '' !== $body;
+}
+
+/**
+ * Whether Brand Philosophy has a complete CTA.
+ */
+function mm_philosophy_has_cta(): bool {
+	$label = trim( (string) mm_home_acf_value( 'philosophy_cta_label' ) );
+	$url   = trim( (string) mm_home_acf_value( 'philosophy_cta_url' ) );
+
+	return '' !== $label && '' !== $url;
+}
+
+/**
+ * Brand philosophy body paragraphs from ACF textarea only.
+ *
+ * @return string[]
+ */
+function mm_home_philosophy_paragraphs(): array {
+	$body = trim( (string) mm_home_acf_value( 'philosophy_body' ) );
+
+	if ( '' === $body ) {
+		return array();
+	}
+
+	$paragraphs = array_filter(
+		array_map(
+			'trim',
+			preg_split( '/\r\n|\r|\n/', $body )
+		)
+	);
+
+	return array_values( $paragraphs );
+}
+
+/**
+ * Craft process timeline steps from ACF repeater only.
+ *
+ * @return array<int, array{number: string, title: string, text: string}>
+ */
+function mm_home_craft_steps(): array {
+	if ( ! mm_acf_available() ) {
+		return array();
+	}
+
+	$post_id = mm_homepage_post_id();
+
+	if ( ! $post_id ) {
+		return array();
+	}
+
+	$rows = get_field( 'craft_steps', $post_id );
+
+	if ( ! is_array( $rows ) || empty( $rows ) ) {
+		return array();
+	}
+
+	$steps = array();
+
+	foreach ( $rows as $row ) {
+		$number = isset( $row['step_number'] ) ? trim( (string) $row['step_number'] ) : '';
+		$title  = isset( $row['step_title'] ) ? trim( (string) $row['step_title'] ) : '';
+		$text   = isset( $row['step_text'] ) ? trim( (string) $row['step_text'] ) : '';
+
+		if ( '' === $title && '' === $text ) {
+			continue;
+		}
+
+		$steps[] = array(
+			'number' => $number,
+			'title'  => $title,
+			'text'   => $text,
+		);
+	}
+
+	return $steps;
+}
+
+/**
+ * Featured creations from homepage relationship to mm_creation CPT.
+ *
+ * Reads `featured_creations` in relationship selection order.
+ *
+ * @return array<int, array{post_id: int, title: string, image_id: int}>
+ */
+function mm_home_featured_creations(): array {
+	$selected = mm_home_acf_value( 'featured_creations' );
+
+	if ( ! is_array( $selected ) || empty( $selected ) ) {
+		return array();
+	}
+
+	$items = array();
+
+	foreach ( $selected as $entry ) {
+		$post = null;
+
+		if ( $entry instanceof WP_Post ) {
+			$post = $entry;
+		} elseif ( is_numeric( $entry ) ) {
+			$post = get_post( (int) $entry );
+		}
+
+		if ( ! $post instanceof WP_Post || 'mm_creation' !== $post->post_type || 'publish' !== $post->post_status ) {
+			continue;
+		}
+
+		$image_id = (int) get_post_thumbnail_id( $post );
+
+		if ( $image_id <= 0 ) {
+			continue;
+		}
+
+		$items[] = array(
+			'post_id'  => (int) $post->ID,
+			'title'    => trim( get_the_title( $post ) ),
+			'image_id' => $image_id,
+		);
+	}
+
+	return $items;
 }
 
 /**
@@ -212,7 +397,7 @@ function mm_home_creations(): array {
 	$creation_posts = get_posts(
 		array(
 			'post_type'      => 'mm_creation',
-			'posts_per_page' => 4,
+			'posts_per_page' => 6,
 			'orderby'        => array(
 				'menu_order' => 'ASC',
 				'date'       => 'DESC',
@@ -225,13 +410,18 @@ function mm_home_creations(): array {
 		$items = array();
 
 		foreach ( $creation_posts as $post ) {
+			$description = mm_acf_available() ? (string) get_field( 'creation_subtitle', $post->ID ) : '';
+
+			if ( '' === $description && mm_acf_available() ) {
+				$description = (string) get_field( 'creation_price_label', $post->ID );
+			}
+
 			$items[] = array(
-				'type'       => 'creation',
-				'post'       => $post,
-				'subtitle'   => mm_acf_available() ? (string) get_field( 'creation_subtitle', $post->ID ) : '',
-				'title'      => get_the_title( $post ),
-				'price'      => mm_acf_available() ? (string) get_field( 'creation_price_label', $post->ID ) : '',
-				'image_id'   => get_post_thumbnail_id( $post ),
+				'type'         => 'creation',
+				'post'         => $post,
+				'title'        => get_the_title( $post ),
+				'description'  => $description,
+				'image_id'     => get_post_thumbnail_id( $post ),
 				'fallback_key' => '',
 			);
 		}
@@ -242,7 +432,7 @@ function mm_home_creations(): array {
 	if ( class_exists( 'WooCommerce' ) && function_exists( 'wc_get_products' ) ) {
 		$featured = wc_get_products(
 			array(
-				'limit'    => 4,
+				'limit'    => 6,
 				'status'   => 'publish',
 				'featured' => true,
 				'orderby'  => 'date',
@@ -252,7 +442,7 @@ function mm_home_creations(): array {
 
 		$products = ! empty( $featured ) ? $featured : wc_get_products(
 			array(
-				'limit'   => 4,
+				'limit'   => 6,
 				'status'  => 'publish',
 				'orderby' => 'date',
 				'order'   => 'DESC',
@@ -316,32 +506,87 @@ function mm_home_option_image_id( string $field_name ): int {
 }
 
 /**
- * Render a homepage image from ACF or theme asset registry.
+ * Render a homepage ACF image only — no theme asset fallback.
  *
- * @param string               $fallback_key Theme image registry key.
- * @param string               $option_field ACF option image field name.
- * @param array<string, mixed> $attrs        Extra img attributes.
+ * @param string               $field_name      ACF image field name.
+ * @param array<string, mixed> $attrs           Extra img attributes.
+ * @param string               $attachment_size WordPress image size.
+ * @param string               $sizes_attr      Responsive sizes attribute.
  * @return string
  */
-function mm_render_home_image( string $fallback_key, string $option_field, array $attrs = array() ): string {
+function mm_render_home_option_image(
+	string $field_name,
+	array $attrs = array(),
+	string $attachment_size = 'full',
+	string $sizes_attr = ''
+): string {
+	$image_id = mm_home_option_image_id( $field_name );
+
+	if ( ! $image_id ) {
+		return '';
+	}
+
+	$default_class = $attrs['class'] ?? 'h-full w-full object-cover object-center';
+	unset( $attrs['class'] );
+
+	$wp_attrs = array(
+		'class'    => $default_class,
+		'loading'  => $attrs['loading'] ?? 'lazy',
+		'decoding' => 'async',
+	);
+
+	if ( '' !== $sizes_attr ) {
+		$wp_attrs['sizes'] = $sizes_attr;
+	}
+
+	$html = wp_get_attachment_image(
+		$image_id,
+		$attachment_size,
+		false,
+		array_merge( $wp_attrs, $attrs )
+	);
+
+	return $html ? $html : '';
+}
+
+/**
+ * Render a homepage image from ACF or theme asset registry.
+ *
+ * @param string               $fallback_key     Theme image registry key.
+ * @param string               $option_field     ACF image field name.
+ * @param array<string, mixed> $attrs            Extra img attributes.
+ * @param string               $attachment_size  WordPress image size (e.g. large, full).
+ * @param string               $sizes_attr       Responsive sizes attribute (empty = WP default).
+ * @return string
+ */
+function mm_render_home_image(
+	string $fallback_key,
+	string $option_field,
+	array $attrs = array(),
+	string $attachment_size = 'large',
+	string $sizes_attr = ''
+): string {
 	$image_id = mm_home_option_image_id( $option_field );
 
 	if ( $image_id ) {
 		$default_class = $attrs['class'] ?? 'h-full w-full object-cover object-center';
 		unset( $attrs['class'] );
 
+		$wp_attrs = array(
+			'class'    => $default_class,
+			'loading'  => $attrs['loading'] ?? 'lazy',
+			'decoding' => 'async',
+		);
+
+		if ( '' !== $sizes_attr ) {
+			$wp_attrs['sizes'] = $sizes_attr;
+		}
+
 		$html = wp_get_attachment_image(
 			$image_id,
-			'large',
+			$attachment_size,
 			false,
-			array_merge(
-				array(
-					'class'    => $default_class,
-					'loading'  => $attrs['loading'] ?? 'lazy',
-					'decoding' => 'async',
-				),
-				$attrs
-			)
+			array_merge( $wp_attrs, $attrs )
 		);
 
 		return $html ? $html : mm_home_image_tag( $fallback_key, $attrs );
@@ -359,7 +604,7 @@ function mm_home_hero_preload_url(): ?string {
 	$image_id = mm_home_option_image_id( 'hero_image' );
 
 	if ( $image_id ) {
-		$url = wp_get_attachment_image_url( $image_id, 'large' );
+		$url = wp_get_attachment_image_url( $image_id, 'full' );
 
 		return $url ? $url : null;
 	}

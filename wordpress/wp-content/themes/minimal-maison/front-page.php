@@ -14,11 +14,24 @@ get_header();
 	<?php get_template_part( 'template-parts/home/hero', 'cinematic' ); ?>
 
 	<?php
-	get_template_part( 'template-parts/home/selected', 'creations' );
+	get_template_part( 'template-parts/home/brand', 'philosophy' );
 
-	get_template_part( 'template-parts/home/maison', 'note' );
+	get_template_part( 'template-parts/home/craft', 'process' );
 
-	get_template_part( 'template-parts/home/bespoke', 'process' );
+	get_template_part( 'template-parts/home/featured', 'creations' );
+
+	// REVIEW: Homepage cutoff — restore sections below after Featured Creations review.
+	// Homepage narrative rebuild — legacy portfolio grid removed (template preserved).
+	// get_template_part( 'template-parts/home/selected', 'creations' );
+
+	// get_template_part( 'template-parts/home/maison', 'note' );
+
+	// Legacy process layout — replaced by craft-process timeline (template preserved).
+	// get_template_part( 'template-parts/home/bespoke', 'process' );
+
+	// if ( mm_should_show_customer_quote() ) {
+	// 	get_template_part( 'template-parts/home/customer', 'quote' );
+	// }
 
 	// Homepage simplification review — temporarily disabled (templates preserved).
 	// get_template_part( 'template-parts/home/stories' );

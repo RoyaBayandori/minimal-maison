@@ -1,6 +1,6 @@
 <?php
 /**
- * Homepage — Selected Creations.
+ * Homepage — Recent Custom Orders portfolio.
  *
  * @package Minimal_Maison
  */
@@ -9,50 +9,51 @@ defined( 'ABSPATH' ) || exit;
 
 $items = mm_home_creations();
 ?>
-<section id="creations" class="mm-section border-t border-neutral-200/60">
+<section id="creations" class="mm-recent-orders" aria-labelledby="recent-orders-heading">
 	<div class="mm-container">
-		<div class="mm-section-header">
-			<p class="mm-subheading mb-4"><?php mm_home_text( 'creations_eyebrow' ); ?></p>
-			<h2 class="text-display-sm md:text-display-md mb-5">
+		<header class="mm-recent-orders__header mm-editorial">
+			<h2 id="recent-orders-heading" class="mm-recent-orders__title">
 				<?php mm_home_text( 'creations_heading' ); ?>
 			</h2>
-			<p class="mx-auto max-w-copy text-sm md:text-base">
+			<p class="mm-recent-orders__subtitle">
 				<?php mm_home_text( 'creations_description' ); ?>
 			</p>
-		</div>
+		</header>
 
-		<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+		<div class="mm-recent-orders__grid">
 			<?php foreach ( $items as $item ) : ?>
 				<?php
-				if ( 'product' === ( $item['type'] ?? '' ) ) {
-					get_template_part(
-						'template-parts/components/product',
-						'card',
-						array( 'product' => $item['product'] )
-					);
-				} elseif ( 'creation' === ( $item['type'] ?? '' ) ) {
-					get_template_part(
-						'template-parts/components/product',
-						'card',
-						array( 'creation' => $item )
-					);
-				} else {
-					get_template_part(
-						'template-parts/components/product',
-						'card',
-						array( 'placeholder' => $item['placeholder'] ?? array() )
-					);
+				$card_args = array(
+					'title'        => '',
+					'description'  => '',
+					'image_id'     => 0,
+					'fallback_key' => '',
+				);
+
+				if ( 'creation' === ( $item['type'] ?? '' ) ) {
+					$card_args['title']       = ! empty( $item['title'] ) ? (string) $item['title'] : '';
+					$card_args['description'] = ! empty( $item['description'] ) ? (string) $item['description'] : '';
+					$card_args['image_id']    = ! empty( $item['image_id'] ) ? (int) $item['image_id'] : 0;
+					$card_args['fallback_key'] = ! empty( $item['fallback_key'] ) ? (string) $item['fallback_key'] : '';
+				} elseif ( 'product' === ( $item['type'] ?? '' ) && ( $item['product'] ?? null ) instanceof WC_Product ) {
+					$product                  = $item['product'];
+					$card_args['title']       = $product->get_name();
+					$card_args['description'] = wp_strip_all_tags( $product->get_short_description() );
+					$card_args['image_id']    = (int) $product->get_image_id();
+				} elseif ( 'placeholder' === ( $item['type'] ?? '' ) && is_array( $item['placeholder'] ?? null ) ) {
+					$placeholder              = $item['placeholder'];
+					$card_args['title']       = (string) ( $placeholder['title'] ?? '' );
+					$card_args['description'] = (string) ( $placeholder['description'] ?? '' );
+					$card_args['fallback_key'] = (string) ( $placeholder['image'] ?? '' );
 				}
+
+				get_template_part(
+					'template-parts/components/portfolio',
+					'card',
+					$card_args
+				);
 				?>
 			<?php endforeach; ?>
 		</div>
-
-		<?php if ( class_exists( 'WooCommerce' ) ) : ?>
-			<div class="mt-14 text-center">
-				<a class="mm-button-outline" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>">
-					<?php esc_html_e( 'مشاهده همه نمونه کارها', 'minimal-maison' ); ?>
-				</a>
-			</div>
-		<?php endif; ?>
 	</div>
 </section>

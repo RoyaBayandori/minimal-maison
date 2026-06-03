@@ -23,9 +23,12 @@ function mm_home_default_strings(): array {
 		'hero_secondary_cta_url'    => '#creations',
 		'hero_banner_eyebrow'       => __( 'کارگاه', 'minimal-maison' ),
 		'hero_banner_text'          => __( 'هر قطعه در کارگاه ما دست‌ساز است — با توجه به جزئیات، نه برای انبوه‌سازی.', 'minimal-maison' ),
+		'craft_eyebrow'             => __( 'فرایند کارگاه', 'minimal-maison' ),
+		'craft_heading'             => __( 'چگونه یک اثر اختصاصی ساخته می‌شود', 'minimal-maison' ),
+		'craft_description'         => __( 'هر قطعه در چهار مرحله — از نخستین گفتگو تا لحظه تحویل.', 'minimal-maison' ),
 		'creations_eyebrow'         => __( 'نمونه کارها', 'minimal-maison' ),
 		'creations_heading'         => __( 'برخی از سفارش‌های اخیر', 'minimal-maison' ),
-		'creations_description'     => __( 'این‌ها نمونه‌ای از کارهایی است که برای مشتریان ساخته‌ایم. هر قطعه بر اساس درخواست همان شخص طراحی شده است.', 'minimal-maison' ),
+		'creations_description'     => __( 'هر قطعه بر اساس نام، سلیقه و داستان صاحب آن ساخته شده است.', 'minimal-maison' ),
 		'process_heading'           => __( 'سفارش ساخت چگونه انجام می‌شود؟', 'minimal-maison' ),
 		'process_description'     => __( 'از اولین جلسه مشاوره تا تحویل نهایی، هر مرحله شفاف و قابل پیگیری است. شما در طراحی مشارکت دارید و ما مسئولیت ساخت را بر عهده می‌گیریم.', 'minimal-maison' ),
 		'testimonials_eyebrow'      => __( 'تجربه مشتریان', 'minimal-maison' ),
@@ -85,6 +88,36 @@ function mm_home_default_process_steps(): array {
 }
 
 /**
+ * Default craft process timeline steps.
+ *
+ * @return array<int, array{number: string, title: string, text: string}>
+ */
+function mm_home_default_craft_steps(): array {
+	return array(
+		array(
+			'number' => '۰۱',
+			'title'  => __( 'گفتگو', 'minimal-maison' ),
+			'text'   => __( 'با یک گفت‌وگوی آرام شروع می‌کنیم — درباره سلیقه، مناسبت، بودجه و زمانی که در ذهن دارید.', 'minimal-maison' ),
+		),
+		array(
+			'number' => '۰۲',
+			'title'  => __( 'طراحی', 'minimal-maison' ),
+			'text'   => __( 'پیش‌طرح اختصاصی آماده می‌شود و با نظر شما، خط به خط، به فرم نهایی می‌رسد.', 'minimal-maison' ),
+		),
+		array(
+			'number' => '۰۳',
+			'title'  => __( 'ساخت', 'minimal-maison' ),
+			'text'   => __( 'در کارگاه مینیمال ساخته می‌شود — ریخته‌گری، پرداخت، نگین‌نشانی و بازبینی دقیق در هر مرحله.', 'minimal-maison' ),
+		),
+		array(
+			'number' => '۰۴',
+			'title'  => __( 'تحویل', 'minimal-maison' ),
+			'text'   => __( 'اثر آماده است — همراه با بسته‌بندی مناسب و راهنمای نگهداری برای سال‌های بعد.', 'minimal-maison' ),
+		),
+	);
+}
+
+/**
  * Default testimonial cards.
  *
  * @return array<int, array{quote: string, author: string}>
@@ -92,7 +125,7 @@ function mm_home_default_process_steps(): array {
 function mm_home_default_testimonials(): array {
 	return array(
 		array(
-			'quote'  => __( '«برای حلقه ازدواجمان می‌خواستیم چیزی ساده و ماندگار باشد. مینیمال دقیقاً همان چیزی را ساخت که در ذهنمان بود.»', 'minimal-maison' ),
+			'quote'  => __( '«برای حلقه ازدواجمان چیزی می‌خواستیم که فقط برای ما باشد. نتیجه دقیقاً همان چیزی شد که در ذهن داشتیم.»', 'minimal-maison' ),
 			'author' => __( 'سفارش حلقه ازدواج', 'minimal-maison' ),
 		),
 		array(
@@ -109,33 +142,39 @@ function mm_home_default_testimonials(): array {
 /**
  * Default creation placeholders.
  *
- * @return array<int, array{subtitle: string, title: string, price: string, image: string}>
+ * @return array<int, array{title: string, description: string, image: string}>
  */
 function mm_home_default_creation_placeholders(): array {
 	return array(
 		array(
-			'subtitle' => __( 'انگشتر سفارشی', 'minimal-maison' ),
-			'title'    => __( 'مدل لینا', 'minimal-maison' ),
-			'price'    => __( 'قیمت پس از مشاوره', 'minimal-maison' ),
-			'image'    => 'creation-ring',
+			'title'       => __( 'سارا م.', 'minimal-maison' ),
+			'description' => __( 'حلقه ازدواج با خوشنویسی فارسی و مروارید طبیعی — ساخته‌شده برای سالگرد ازدواج.', 'minimal-maison' ),
+			'image'       => 'creation-ring',
 		),
 		array(
-			'subtitle' => __( 'گردنبند', 'minimal-maison' ),
-			'title'    => __( 'مدل آرک', 'minimal-maison' ),
-			'price'    => __( 'قیمت پس از مشاوره', 'minimal-maison' ),
-			'image'    => 'creation-necklace',
+			'title'       => __( 'نرگس ک.', 'minimal-maison' ),
+			'description' => __( 'گردنبند مروارید با قلاب گل الماس — هدیه‌ای که قرار بود فقط برای او باشد.', 'minimal-maison' ),
+			'image'       => 'creation-necklace',
 		),
 		array(
-			'subtitle' => __( 'دستبند', 'minimal-maison' ),
-			'title'    => __( 'مدل باران', 'minimal-maison' ),
-			'price'    => __( 'قیمت پس از مشاوره', 'minimal-maison' ),
-			'image'    => 'creation-bracelet',
+			'title'       => __( 'مریم ر.', 'minimal-maison' ),
+			'description' => __( 'دستبند الماس با پرداخت درخشان — طراحی‌شده بر اساس یک خاطره خانوادگی.', 'minimal-maison' ),
+			'image'       => 'creation-bracelet',
 		),
 		array(
-			'subtitle' => __( 'گوشواره', 'minimal-maison' ),
-			'title'    => __( 'مدل دون', 'minimal-maison' ),
-			'price'    => __( 'قیمت پس از مشاوره', 'minimal-maison' ),
-			'image'    => 'creation-earring',
+			'title'       => __( 'الهام س.', 'minimal-maison' ),
+			'description' => __( 'گوشواره حلقه‌ای طلای زرد — فرمی مینیمال که هر روز همراهش می‌ماند.', 'minimal-maison' ),
+			'image'       => 'creation-earring',
+		),
+		array(
+			'title'       => __( 'پریسا آ.', 'minimal-maison' ),
+			'description' => __( 'آویز طلا با نگین عقیق — ساخته‌شده از روی یک طرح دست‌کشیده که سال‌ها نگه داشته بود.', 'minimal-maison' ),
+			'image'       => 'about',
+		),
+		array(
+			'title'       => __( 'ندا ح.', 'minimal-maison' ),
+			'description' => __( 'انگشتر نامزدی با الماس قطره‌ای — برای لحظه‌ای که فقط یک بار اتفاق می‌افتد.', 'minimal-maison' ),
+			'image'       => 'atelier',
 		),
 	);
 }

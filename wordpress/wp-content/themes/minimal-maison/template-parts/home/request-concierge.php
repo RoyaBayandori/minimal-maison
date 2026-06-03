@@ -14,9 +14,10 @@ $whatsapp_url = mm_maison_contact_url( 'whatsapp' );
 		<?php
 		if ( $whatsapp_url ) {
 			$whatsapp_link = sprintf(
-				'<a href="%1$s" class="mm-request-concierge__link" rel="noopener noreferrer">%2$s</a>',
+				'<a href="%1$s" class="mm-request-concierge__link"%3$s>%2$s</a>',
 				esc_url( $whatsapp_url ),
-				esc_html__( 'واتساپ', 'minimal-maison' )
+				esc_html__( 'واتساپ', 'minimal-maison' ),
+				mm_maison_contact_link_attrs( $whatsapp_url ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			);
 
 			echo wp_kses(
@@ -27,9 +28,10 @@ $whatsapp_url = mm_maison_contact_url( 'whatsapp' );
 				),
 				array(
 					'a' => array(
-						'href'  => array(),
-						'class' => array(),
-						'rel'   => array(),
+						'href'   => array(),
+						'class'  => array(),
+						'rel'    => array(),
+						'target' => array(),
 					),
 				)
 			);
