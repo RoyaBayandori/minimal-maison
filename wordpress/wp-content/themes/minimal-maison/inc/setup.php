@@ -104,6 +104,7 @@ add_filter( 'get_custom_logo', 'minimal_maison_custom_logo_markup' );
  *
  * @param array<string, mixed> $args {
  *     @type bool $footer Apply footer layout classes.
+ *     @type bool $header Apply header layout classes.
  * }
  */
 function mm_the_site_logo( array $args = array() ): void {
@@ -111,6 +112,7 @@ function mm_the_site_logo( array $args = array() ): void {
 		$args,
 		array(
 			'footer' => false,
+			'header' => false,
 		)
 	);
 
@@ -119,6 +121,10 @@ function mm_the_site_logo( array $args = array() ): void {
 	if ( $args['footer'] ) {
 		$classes[] = 'site-logo--footer';
 		$classes[] = 'mb-4';
+	}
+
+	if ( $args['header'] ) {
+		$classes[] = 'site-logo--header';
 	}
 
 	$class_attr = esc_attr( implode( ' ', $classes ) );

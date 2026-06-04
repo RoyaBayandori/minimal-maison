@@ -172,15 +172,30 @@ function mm_home_image_preload_hero(): void {
 		return;
 	}
 
-	$url = mm_home_hero_preload_url();
+	$sources = mm_home_hero_preload_sources();
 
-	if ( null === $url ) {
+	if ( empty( $sources ) ) {
 		return;
 	}
 
-	printf(
-		'<link rel="preload" as="image" href="%s" fetchpriority="high">' . "\n",
-		esc_url( $url )
-	);
+	foreach ( $sources as $source ) {
+		if ( empty( $source['url'] ) ) {
+			continue;
+		}
+
+		if ( ! empty( $source['media'] ) ) {
+			printf(
+				'<link rel="preload" as="image" href="%s" media="%s" fetchpriority="high">' . "\n",
+				esc_url( $source['url'] ),
+				esc_attr( $source['media'] )
+			);
+			continue;
+		}
+
+		printf(
+			'<link rel="preload" as="image" href="%s" fetchpriority="high">' . "\n",
+			esc_url( $source['url'] )
+		);
+	}
 }
 add_action( 'wp_head', 'mm_home_image_preload_hero', 1 );

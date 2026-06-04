@@ -14,16 +14,13 @@ $primary_cta_label    = trim( (string) mm_home_acf_value( 'hero_primary_cta_labe
 $primary_cta_url      = mm_home_acf_url( 'hero_primary_cta_url' );
 $secondary_cta_label  = trim( (string) mm_home_acf_value( 'hero_secondary_cta_label' ) );
 $secondary_cta_url    = mm_home_acf_url( 'hero_secondary_cta_url' );
-$hero_image           = mm_render_home_option_image(
-	'hero_image',
+$hero_image           = mm_render_home_hero_picture(
 	array(
 		'class'         => 'mm-hero-cinematic__image',
 		'loading'       => 'eager',
 		'fetchpriority' => 'high',
 		'decoding'      => 'async',
-	),
-	'full',
-	'100vw'
+	)
 );
 $has_primary_cta   = '' !== $primary_cta_label && '' !== $primary_cta_url;
 $has_secondary_cta = '' !== $secondary_cta_label && '' !== $secondary_cta_url;

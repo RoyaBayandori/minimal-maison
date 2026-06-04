@@ -12,6 +12,7 @@ define( 'MM_THEME_DIR', get_template_directory() );
 define( 'MM_THEME_URI', get_template_directory_uri() );
 
 require MM_THEME_DIR . '/inc/setup.php';
+require MM_THEME_DIR . '/inc/header-nav.php';
 require MM_THEME_DIR . '/inc/contact.php';
 require MM_THEME_DIR . '/inc/assets.php';
 require MM_THEME_DIR . '/inc/home-images.php';

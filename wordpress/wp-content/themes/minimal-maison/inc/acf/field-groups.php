@@ -83,12 +83,42 @@ function mm_acf_register_field_groups(): void {
 				),
 				array(
 					'key'           => 'field_mm_hero_image',
-					'label'         => __( 'Hero Image', 'minimal-maison' ),
+					'label'         => __( 'Desktop Hero Image', 'minimal-maison' ),
 					'name'          => 'hero_image',
 					'type'          => 'image',
 					'return_format' => 'id',
 					'preview_size'  => 'medium',
 					'library'       => 'all',
+					'instructions'  => __( 'Landscape image for viewports 1200px and wider.', 'minimal-maison' ),
+					'wrapper'       => array(
+						'width' => '33',
+					),
+				),
+				array(
+					'key'           => 'field_mm_hero_image_tablet',
+					'label'         => __( 'Tablet Hero Image', 'minimal-maison' ),
+					'name'          => 'hero_image_tablet',
+					'type'          => 'image',
+					'return_format' => 'id',
+					'preview_size'  => 'medium',
+					'library'       => 'all',
+					'instructions'  => __( 'Image for viewports 768px–1199px. Falls back to desktop if empty.', 'minimal-maison' ),
+					'wrapper'       => array(
+						'width' => '33',
+					),
+				),
+				array(
+					'key'           => 'field_mm_hero_image_mobile',
+					'label'         => __( 'Mobile Hero Image', 'minimal-maison' ),
+					'name'          => 'hero_image_mobile',
+					'type'          => 'image',
+					'return_format' => 'id',
+					'preview_size'  => 'medium',
+					'library'       => 'all',
+					'instructions'  => __( 'Portrait image for viewports below 768px. Falls back to tablet, then desktop.', 'minimal-maison' ),
+					'wrapper'       => array(
+						'width' => '34',
+					),
 				),
 				array(
 					'key'   => 'field_mm_hero_banner_eyebrow',

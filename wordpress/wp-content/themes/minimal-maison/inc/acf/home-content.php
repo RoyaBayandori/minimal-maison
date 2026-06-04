@@ -668,12 +668,129 @@ function mm_render_home_image(
 }
 
 /**
+ * Resolve a responsive hero image attachment ID with breakpoint fallbacks.
+ *
+ * @param string $breakpoint desktop|tablet|mobile
+ * @return int Attachment ID, or 0 when no hero image exists.
+ */
+function mm_home_hero_image_id( string $breakpoint ): int {
+	$desktop = mm_home_option_image_id( 'hero_image' );
+	$tablet  = mm_home_option_image_id( 'hero_image_tablet' );
+	$mobile  = mm_home_option_image_id( 'hero_image_mobile' );
+
+	switch ( $breakpoint ) {
+		case 'mobile':
+			if ( $mobile ) {
+				return $mobile;
+			}
+			if ( $tablet ) {
+				return $tablet;
+			}
+			return $desktop;
+
+		case 'tablet':
+			if ( $tablet ) {
+				return $tablet;
+			}
+			return $desktop;
+
+		case 'desktop':
+		default:
+			return $desktop;
+	}
+}
+
+/**
+ * Render the homepage hero as a responsive <picture> element.
+ *
+ * @param array<string, mixed> $attrs Extra attributes for the fallback <img>.
+ * @param string               $attachment_size WordPress image size.
+ * @return string
+ */
+function mm_render_home_hero_picture(
+	array $attrs = array(),
+	string $attachment_size = 'full'
+): string {
+	$desktop_id = mm_home_hero_image_id( 'desktop' );
+
+	if ( ! $desktop_id ) {
+		return '';
+	}
+
+	$mobile_id = mm_home_hero_image_id( 'mobile' );
+	$tablet_id = mm_home_hero_image_id( 'tablet' );
+
+	$img_class = $attrs['class'] ?? 'mm-hero-cinematic__image';
+	unset( $attrs['class'] );
+
+	$sources = array(
+		array(
+			'media' => '(max-width: 767px)',
+			'id'    => $mobile_id,
+		),
+		array(
+			'media' => '(min-width: 768px) and (max-width: 1199px)',
+			'id'    => $tablet_id,
+		),
+		array(
+			'media' => '(min-width: 1200px)',
+			'id'    => $desktop_id,
+		),
+	);
+
+	$html = '<picture class="mm-hero-cinematic__picture">';
+
+	foreach ( $sources as $source ) {
+		if ( empty( $source['id'] ) ) {
+			continue;
+		}
+
+		$url = wp_get_attachment_image_url( (int) $source['id'], $attachment_size );
+
+		if ( ! $url ) {
+			continue;
+		}
+
+		$mime = get_post_mime_type( (int) $source['id'] );
+		$type = $mime ? sprintf( ' type="%s"', esc_attr( $mime ) ) : '';
+
+		$html .= sprintf(
+			'<source media="%s" srcset="%s"%s>',
+			esc_attr( $source['media'] ),
+			esc_url( $url ),
+			$type
+		);
+	}
+
+	$img_attrs = array_merge(
+		array(
+			'class'         => $img_class,
+			'loading'       => $attrs['loading'] ?? 'eager',
+			'decoding'      => 'async',
+			'fetchpriority' => $attrs['fetchpriority'] ?? 'high',
+		),
+		$attrs
+	);
+
+	$image_html = wp_get_attachment_image( $desktop_id, $attachment_size, false, $img_attrs );
+
+	if ( ! $image_html ) {
+		return '';
+	}
+
+	$html .= $image_html;
+	$html .= '</picture>';
+
+	return $html;
+}
+
+/**
  * Hero image URL for preload — ACF override or theme asset.
  *
  * @return string|null
  */
 function mm_home_hero_preload_url(): ?string {
-	$image_id = mm_home_option_image_id( 'hero_image' );
+	$image_id = mm_home_hero_image_id( 'desktop' );
 
 	if ( $image_id ) {
 		$url = wp_get_attachment_image_url( $image_id, 'full' );
@@ -682,4 +799,64 @@ function mm_home_hero_preload_url(): ?string {
 	}
 
 	return mm_home_image_url( 'hero' );
+}
+
+/**
+ * Hero preload candidates keyed by viewport media query.
+ *
+ * @return array<int, array{url: string, media: string|null}>
+ */
+function mm_home_hero_preload_sources(): array {
+	$desktop_id = mm_home_hero_image_id( 'desktop' );
+
+	if ( ! $desktop_id ) {
+		$theme_url = mm_home_image_url( 'hero' );
+
+		if ( ! $theme_url ) {
+			return array();
+		}
+
+		return array(
+			array(
+				'url'   => $theme_url,
+				'media' => null,
+			),
+		);
+	}
+
+	$sources = array(
+		array(
+			'id'    => mm_home_hero_image_id( 'mobile' ),
+			'media' => '(max-width: 767px)',
+		),
+		array(
+			'id'    => mm_home_hero_image_id( 'tablet' ),
+			'media' => '(min-width: 768px) and (max-width: 1199px)',
+		),
+		array(
+			'id'    => mm_home_hero_image_id( 'desktop' ),
+			'media' => '(min-width: 1200px)',
+		),
+	);
+
+	$links = array();
+
+	foreach ( $sources as $source ) {
+		if ( empty( $source['id'] ) ) {
+			continue;
+		}
+
+		$url = wp_get_attachment_image_url( (int) $source['id'], 'full' );
+
+		if ( ! $url ) {
+			continue;
+		}
+
+		$links[] = array(
+			'url'   => $url,
+			'media' => $source['media'],
+		);
+	}
+
+	return $links;
 }
