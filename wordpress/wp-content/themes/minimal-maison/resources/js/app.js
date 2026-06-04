@@ -95,10 +95,45 @@ function initCraftProcessPreview() {
 	setActive( activeIndex );
 }
 
+/**
+ * Mobile header — hamburger menu toggle.
+ */
+function initMobileNav() {
+	const toggle = document.querySelector( '.site-header__menu-toggle' );
+	const panel  = document.getElementById( 'site-mobile-nav' );
+
+	if ( ! toggle || ! panel ) {
+		return;
+	}
+
+	const setOpen = ( isOpen ) => {
+		toggle.setAttribute( 'aria-expanded', isOpen ? 'true' : 'false' );
+		toggle.setAttribute(
+			'aria-label',
+			isOpen ? 'بستن منو' : 'باز کردن منو'
+		);
+		panel.hidden = ! isOpen;
+		panel.classList.toggle( 'is-open', isOpen );
+	};
+
+	toggle.addEventListener( 'click', () => {
+		const isOpen = toggle.getAttribute( 'aria-expanded' ) === 'true';
+		setOpen( ! isOpen );
+	} );
+
+	document.addEventListener( 'keydown', ( event ) => {
+		if ( event.key === 'Escape' && toggle.getAttribute( 'aria-expanded' ) === 'true' ) {
+			setOpen( false );
+			toggle.focus();
+		}
+	} );
+}
+
 document.addEventListener( 'DOMContentLoaded', () => {
 	document.documentElement.classList.add( 'mm-js' );
 
 	initCraftProcessPreview();
+	initMobileNav();
 
 	const fileInput = document.getElementById( 'mm_request_reference' );
 

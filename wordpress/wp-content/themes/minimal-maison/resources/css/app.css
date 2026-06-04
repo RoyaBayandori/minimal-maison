@@ -53,11 +53,48 @@
 	}
 
 	.site-header--home {
-		@apply border-transparent bg-transparent;
+		@apply relative border-b border-neutral-200/35 bg-ivory-100;
+		@apply md:absolute md:inset-x-0 md:top-0 md:border-transparent md:bg-transparent;
+	}
+
+	.site-header--home .site-header__container {
+		@apply py-0 md:py-5;
+	}
+
+	.site-header--home .site-header__inner {
+		@apply h-[72px] md:h-auto;
 	}
 
 	.site-header--home .site-nav a {
 		@apply text-ivory-100/75 transition hover:text-ivory-50;
+	}
+
+	.site-header__menu-toggle {
+		@apply relative flex h-10 w-10 flex-col items-center justify-center gap-[7px] text-[#4a3828];
+	}
+
+	.site-header__menu-bar {
+		@apply block h-px w-[18px] bg-current;
+	}
+
+	.site-header__icon {
+		@apply flex h-10 w-10 items-center justify-end text-[#4a3828]/55;
+	}
+
+	.site-mobile-nav {
+		@apply border-b border-neutral-200/35 bg-ivory-100;
+	}
+
+	.site-mobile-nav__panel {
+		@apply px-6 py-5;
+	}
+
+	.site-mobile-nav__list {
+		@apply flex flex-col gap-4 text-sm font-light tracking-wide text-[#4a3828];
+	}
+
+	.site-mobile-nav__list a {
+		@apply block py-1 transition hover:text-[#8f6b35];
 	}
 
 	.site-logo {
@@ -409,53 +446,83 @@
 		@apply text-start;
 	}
 
+	.mm-hero-cinematic__content.mm-editorial {
+		@apply text-center md:text-start;
+	}
+
 	.mm-hero-cinematic {
-		@apply relative isolate min-h-[85svh] w-full overflow-hidden bg-ivory-100 md:min-h-[88svh] lg:min-h-[90svh];
+		@apply relative isolate flex w-full flex-col overflow-hidden bg-ivory-100;
+		@apply md:block md:min-h-[88svh] lg:min-h-[90svh];
 	}
 
 	.mm-hero-cinematic::after {
 		content: '';
-		@apply pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[22%] bg-gradient-to-t from-ivory-100 from-15% via-ivory-100/35 via-55% to-transparent;
+		@apply pointer-events-none absolute inset-x-0 bottom-0 z-[1] hidden h-[22%] bg-gradient-to-t from-ivory-100 from-15% via-ivory-100/35 via-55% to-transparent md:block;
 	}
 
 	.mm-hero-cinematic__media {
-		@apply absolute inset-0 z-0;
+		@apply relative z-0 w-full shrink-0 overflow-hidden;
+		@apply h-[58svh] min-h-[320px] max-h-[520px];
+		@apply md:absolute md:inset-0 md:h-auto md:min-h-0 md:max-h-none;
 	}
 
 	.mm-hero-cinematic__image {
-		@apply h-full w-full object-cover object-[center_46%] md:object-[20%_42%] lg:object-[18%_42%];
+		@apply h-full w-full object-cover object-[34%_40%];
+		@apply md:object-[20%_42%] lg:object-[18%_42%];
 	}
 
 	.mm-hero-cinematic__frame {
-		@apply relative z-[2] flex min-h-[85svh] items-center pb-10 pt-28 md:min-h-[88svh] lg:min-h-[90svh];
+		@apply relative z-[2] flex flex-col items-center pb-16 pt-12 text-center;
+		@apply md:min-h-[88svh] md:items-center md:pb-10 md:pt-28 md:text-start lg:min-h-[90svh];
 	}
 
 	.mm-hero-cinematic__content {
-		@apply w-full max-w-[24rem] md:absolute md:inset-y-0 md:flex md:max-w-[25rem] md:flex-col md:justify-center md:pb-14 md:left-[48%] md:right-10 md:-translate-x-24 md:-translate-y-12 lg:max-w-[27rem] lg:pb-20 lg:left-[50%] lg:translate-x-2 lg:translate-y-30;
+		@apply mx-auto w-full max-w-[90%] text-center;
+		@apply md:absolute md:inset-y-0 md:mx-0 md:flex md:max-w-[25rem] md:flex-col md:justify-center md:pb-14 md:text-start md:left-[48%] md:right-10 md:-translate-x-24 md:-translate-y-12 lg:max-w-[27rem] lg:pb-20 lg:left-[50%] lg:translate-x-2 lg:translate-y-30;
 	}
 
 	.mm-hero-cinematic__eyebrow {
-		@apply mb-7 text-[0.72rem] font-light tracking-[0.24em] text-[#8f6b35] md:mb-9;
+		@apply mb-9 text-center text-[0.68rem] font-light tracking-[0.28em] text-[#8f6b35];
+		@apply md:mb-9 md:text-start md:text-[0.72rem] md:tracking-[0.24em];
 	}
 
 	.mm-hero-cinematic__heading {
-		@apply mb-4 max-w-[21rem] font-hero text-[2rem] font-light leading-[1.38] text-[#4a3828] md:mb-5 md:max-w-[23rem] md:text-[2.72rem] md:leading-[1.4] lg:mb-5 lg:max-w-[24rem] lg:text-[3rem] lg:leading-[1.42];
+		@apply mx-auto mb-10 max-w-[90%] text-center font-hero text-[1.875rem] font-light leading-[1.48] text-[#4a3828];
+		@apply md:mb-4 md:mx-0 md:max-w-[21rem] md:text-start md:text-[2rem] md:leading-[1.38];
+		@apply md:mb-5 md:max-w-[23rem] md:text-[2.72rem] md:leading-[1.4];
+		@apply lg:mb-5 lg:max-w-[24rem] lg:text-[3rem] lg:leading-[1.42];
 	}
 
 	.mm-hero-cinematic__lede {
-		@apply mb-5 max-w-[20rem] text-[0.875rem] font-light leading-[2] text-[#4a3828]/50 md:mb-6 md:text-[0.9375rem] md:leading-[1.95];
+		@apply hidden md:mb-5 md:block md:max-w-[20rem] md:text-[0.875rem] md:font-light md:leading-[2] md:text-[#4a3828]/50;
+		@apply md:mb-6 md:text-[0.9375rem] md:leading-[1.95];
 	}
 
 	.mm-hero-cinematic__actions {
-		@apply flex flex-wrap items-center gap-y-3;
+		@apply flex flex-col items-center gap-5;
+		@apply md:flex-row md:flex-wrap md:items-center md:gap-y-3;
 	}
 
 	.mm-hero-cinematic__cta-primary {
-		@apply inline-flex items-center justify-center border border-[#a8874f] bg-transparent px-5 py-2 text-sm font-normal text-[#a8874f] transition hover:border-[#8f6b35] hover:text-[#8f6b35];
+		@apply inline-flex w-[240px] items-center justify-center border border-[#a8874f] bg-transparent px-5 py-2.5 text-sm font-normal text-[#a8874f] transition hover:border-[#8f6b35] hover:text-[#8f6b35];
+		@apply md:w-auto md:py-2;
 	}
 
 	.mm-hero-cinematic__cta-secondary {
-		@apply inline-flex items-center justify-center border-s border-[#a8874f]/40 bg-transparent py-2.5 ps-5 text-sm font-normal text-[#3d2e22] underline decoration-[#3d2e22]/55 underline-offset-[5px] transition hover:text-[#2f2419] hover:decoration-[#2f2419]/75 ms-5;
+		@apply inline-flex items-center justify-center bg-transparent py-1 text-sm font-normal text-[#3d2e22] underline decoration-[#3d2e22]/55 underline-offset-[5px] transition hover:text-[#2f2419] hover:decoration-[#2f2419]/75;
+		@apply md:border-s md:border-[#a8874f]/40 md:py-2.5 md:ps-5 md:ms-5;
+	}
+
+	.mm-hero-cinematic__scroll {
+		@apply mt-12 flex justify-center md:hidden;
+	}
+
+	.mm-hero-cinematic__scroll-ring {
+		@apply flex h-9 w-9 items-center justify-center rounded-full border border-[#a8874f]/35 text-[#a8874f]/65;
+	}
+
+	.mm-hero-cinematic__scroll-chevron {
+		@apply mt-0.5;
 	}
 
 	.mm-editorial-hero {

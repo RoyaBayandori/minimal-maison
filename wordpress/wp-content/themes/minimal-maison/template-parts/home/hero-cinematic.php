@@ -74,6 +74,14 @@ $has_secondary_cta = '' !== $secondary_cta_label && '' !== $secondary_cta_url;
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
+
+			<div class="mm-hero-cinematic__scroll" aria-hidden="true">
+				<span class="mm-hero-cinematic__scroll-ring">
+					<svg class="mm-hero-cinematic__scroll-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+				</span>
+			</div>
 		</div>
 	</div>
 </section>
