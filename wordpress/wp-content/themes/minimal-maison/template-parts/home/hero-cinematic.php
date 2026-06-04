@@ -35,53 +35,45 @@ $has_secondary_cta = '' !== $secondary_cta_label && '' !== $secondary_cta_url;
 		</div>
 	<?php endif; ?>
 
-	<div class="mm-hero-cinematic__overlay" aria-hidden="true"></div>
-
 	<div class="mm-container mm-hero-cinematic__frame">
-		<div class="mm-hero-cinematic__content">
-			<div class="mm-hero-cinematic__panel mm-editorial">
-				<?php if ( '' !== $eyebrow ) : ?>
-					<p class="mm-hero-cinematic__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
-				<?php endif; ?>
+		<div class="mm-hero-cinematic__content mm-editorial" dir="rtl">
+			<?php if ( '' !== $eyebrow ) : ?>
+				<p class="mm-hero-cinematic__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
+			<?php endif; ?>
 
-				<?php if ( '' !== $heading ) : ?>
-					<h1 class="mm-hero-cinematic__heading">
-						<?php echo esc_html( $heading ); ?>
-					</h1>
-				<?php endif; ?>
+			<?php if ( '' !== $heading ) : ?>
+				<h1 class="mm-hero-cinematic__heading">
+					<?php echo esc_html( $heading ); ?>
+				</h1>
+			<?php endif; ?>
 
-				<?php if ( '' !== $lede ) : ?>
-					<p class="mm-hero-cinematic__lede">
-						<?php echo esc_html( $lede ); ?>
-					</p>
-				<?php endif; ?>
+			<?php if ( '' !== $lede ) : ?>
+				<p class="mm-hero-cinematic__lede">
+					<?php echo esc_html( $lede ); ?>
+				</p>
+			<?php endif; ?>
 
-				<?php if ( $has_primary_cta || $has_secondary_cta ) : ?>
-					<div class="mm-hero-cinematic__actions">
-						<?php if ( $has_primary_cta ) : ?>
-							<a
-								class="mm-hero-cinematic__cta-primary"
-								href="<?php echo esc_url( $primary_cta_url ); ?>"
-							>
-								<?php echo esc_html( $primary_cta_label ); ?>
-							</a>
-						<?php endif; ?>
+			<?php if ( $has_primary_cta || $has_secondary_cta ) : ?>
+				<div class="mm-hero-cinematic__actions">
+					<?php if ( $has_primary_cta ) : ?>
+						<a
+							class="mm-hero-cinematic__cta-primary"
+							href="<?php echo esc_url( $primary_cta_url ); ?>"
+						>
+							<?php echo esc_html( $primary_cta_label ); ?>
+						</a>
+					<?php endif; ?>
 
-						<?php if ( $has_secondary_cta ) : ?>
-							<a
-								class="mm-hero-cinematic__cta-secondary"
-								href="<?php echo esc_url( $secondary_cta_url ); ?>"
-							>
-								<?php echo esc_html( $secondary_cta_label ); ?>
-							</a>
-						<?php endif; ?>
-					</div>
-				<?php endif; ?>
-			</div>
+					<?php if ( $has_secondary_cta ) : ?>
+						<a
+							class="mm-hero-cinematic__cta-secondary"
+							href="<?php echo esc_url( $secondary_cta_url ); ?>"
+						>
+							<?php echo esc_html( $secondary_cta_label ); ?>
+						</a>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
 		</div>
-	</div>
-
-	<div class="mm-hero-cinematic__scroll" aria-hidden="true">
-		<span class="mm-hero-cinematic__scroll-line"></span>
 	</div>
 </section>

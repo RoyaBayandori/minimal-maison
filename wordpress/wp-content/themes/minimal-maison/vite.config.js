@@ -8,7 +8,8 @@ export default defineConfig( {
 	root: themeRoot,
 	// Dev: WordPress enqueues http://localhost:5173/resources/js/app.js (no theme path prefix).
 	// Prod: manifest paths are resolved via get_template_directory_uri() in inc/assets.php.
-	base: '/',
+	// Relative base keeps bundled font URLs beside dist/assets/*.css in WordPress.
+	base: process.env.NODE_ENV === 'production' ? './' : '/',
 	server: {
 		host: '0.0.0.0',
 		port: 5173,

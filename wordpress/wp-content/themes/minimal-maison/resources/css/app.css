@@ -1,5 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500&display=swap');
 
+@font-face {
+	font-family: Sahel;
+	src: url('../../assets/fonts/Sahel-Light.woff2') format('woff2');
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: Sahel;
+	src: url('../../assets/fonts/Sahel-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -394,65 +410,52 @@
 	}
 
 	.mm-hero-cinematic {
-		@apply relative isolate min-h-[82svh] w-full overflow-hidden bg-ivory-100 md:min-h-[88svh] lg:min-h-[90svh];
+		@apply relative isolate min-h-[85svh] w-full overflow-hidden bg-ivory-100 md:min-h-[88svh] lg:min-h-[90svh];
+	}
+
+	.mm-hero-cinematic::after {
+		content: '';
+		@apply pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[22%] bg-gradient-to-t from-ivory-100 from-15% via-ivory-100/35 via-55% to-transparent;
 	}
 
 	.mm-hero-cinematic__media {
-		@apply absolute inset-0;
+		@apply absolute inset-0 z-0;
 	}
 
 	.mm-hero-cinematic__image {
-		@apply h-full w-full object-cover object-[28%_38%] md:object-[24%_44%] lg:object-[22%_50%];
-	}
-
-	.mm-hero-cinematic__overlay {
-		@apply pointer-events-none absolute inset-0 bg-gradient-to-t from-ivory-100 from-0% via-ivory-100/55 via-[26%] to-transparent to-[56%] md:via-ivory-100/35 md:via-[30%] md:to-[68%] lg:via-ivory-100/25 lg:via-[28%] lg:to-[74%];
+		@apply h-full w-full object-cover object-[center_46%] md:object-[20%_42%] lg:object-[18%_42%];
 	}
 
 	.mm-hero-cinematic__frame {
-		@apply relative flex min-h-[82svh] items-end justify-center pb-10 pt-28 md:min-h-[88svh] md:block lg:min-h-[90svh];
+		@apply relative z-[2] flex min-h-[85svh] items-center pb-10 pt-28 md:min-h-[88svh] lg:min-h-[90svh];
 	}
 
 	.mm-hero-cinematic__content {
-		@apply w-full max-w-[42rem] md:absolute md:bottom-[4.5rem] md:left-[54%] md:right-6 md:max-w-[34rem] lg:bottom-20 lg:left-[56%] lg:right-8;
-	}
-
-	.mm-hero-cinematic__panel {
-		@apply rounded-[28px] border border-white/45 px-8 py-10 text-ink-900 backdrop-blur-[20px] md:px-12 md:py-14;
-		background: rgba(250, 248, 245, 0.72);
-		box-shadow: 0 30px 80px rgba(44, 40, 37, 0.12);
+		@apply w-full max-w-[24rem] md:absolute md:inset-y-0 md:flex md:max-w-[25rem] md:flex-col md:justify-center md:pb-14 md:left-[48%] md:right-10 md:-translate-x-24 md:-translate-y-12 lg:max-w-[27rem] lg:pb-20 lg:left-[50%] lg:translate-x-2 lg:translate-y-30;
 	}
 
 	.mm-hero-cinematic__eyebrow {
-		@apply mb-7 text-[0.65rem] font-light tracking-[0.22em] text-ink-900/50 md:mb-8;
+		@apply mb-7 text-[0.72rem] font-light tracking-[0.24em] text-[#8f6b35] md:mb-9;
 	}
 
 	.mm-hero-cinematic__heading {
-		@apply mb-9 text-[2rem] font-extralight leading-[1.55] text-ink-900 md:mb-10 md:text-[2.55rem] md:leading-[1.48];
+		@apply mb-4 max-w-[21rem] font-hero text-[2rem] font-light leading-[1.38] text-[#4a3828] md:mb-5 md:max-w-[23rem] md:text-[2.72rem] md:leading-[1.4] lg:mb-5 lg:max-w-[24rem] lg:text-[3rem] lg:leading-[1.42];
 	}
 
 	.mm-hero-cinematic__lede {
-		@apply mb-11 text-[0.97rem] font-light leading-[2.15] text-ink-900/65 md:mb-12 md:text-[1.05rem] md:leading-[2.1];
+		@apply mb-5 max-w-[20rem] text-[0.875rem] font-light leading-[2] text-[#4a3828]/50 md:mb-6 md:text-[0.9375rem] md:leading-[1.95];
 	}
 
 	.mm-hero-cinematic__actions {
-		@apply flex flex-wrap items-center gap-5 md:gap-6;
+		@apply flex flex-wrap items-center gap-y-3;
 	}
 
 	.mm-hero-cinematic__cta-primary {
-		@apply inline-flex items-center justify-center rounded-full border border-gold-400/70 bg-transparent px-7 py-3 text-[0.68rem] font-light tracking-[0.12em] text-gold-500 transition-[color,background-color,border-color] duration-500 hover:border-gold-400 hover:bg-gold-400 hover:text-ivory-50;
+		@apply inline-flex items-center justify-center border border-[#a8874f] bg-transparent px-5 py-2 text-sm font-normal text-[#a8874f] transition hover:border-[#8f6b35] hover:text-[#8f6b35];
 	}
 
 	.mm-hero-cinematic__cta-secondary {
-		@apply inline-block text-sm text-ink-900/80 underline decoration-ink-900/40 underline-offset-[7px] transition hover:text-ink-900 hover:decoration-ink-900/70;
-	}
-
-	.mm-hero-cinematic__scroll {
-		@apply pointer-events-none absolute inset-x-0 bottom-5 flex justify-center md:bottom-7;
-	}
-
-	.mm-hero-cinematic__scroll-line {
-		@apply block h-10 w-px bg-ink-900/20 md:bg-ivory-100/35;
+		@apply inline-flex items-center justify-center border-s border-[#a8874f]/40 bg-transparent py-2.5 ps-5 text-sm font-normal text-[#3d2e22] underline decoration-[#3d2e22]/55 underline-offset-[5px] transition hover:text-[#2f2419] hover:decoration-[#2f2419]/75 ms-5;
 	}
 
 	.mm-editorial-hero {

@@ -10,6 +10,7 @@ export default {
 		extend: {
 			fontFamily: {
 				sans: [ 'Vazirmatn', 'system-ui', 'sans-serif' ],
+				hero: [ 'Sahel', 'Vazirmatn', 'system-ui', 'sans-serif' ],
 			},
 			colors: {
 				ivory: {
