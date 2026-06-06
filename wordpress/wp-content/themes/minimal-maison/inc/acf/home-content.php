@@ -294,6 +294,24 @@ function mm_home_craft_has_preview_images( array $steps ): bool {
 }
 
 /**
+ * Format a 1-based step index as zero-padded Persian digits (e.g. ۰۱).
+ *
+ * @param int $step_index One-based step index.
+ * @return string
+ */
+function mm_format_persian_step_number( int $step_index ): string {
+	$digits  = array( '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹' );
+	$western = sprintf( '%02d', max( 1, $step_index ) );
+	$formatted = '';
+
+	for ( $i = 0, $len = strlen( $western ); $i < $len; $i++ ) {
+		$formatted .= $digits[ (int) $western[ $i ] ];
+	}
+
+	return $formatted;
+}
+
+/**
  * Render a Craft Process step image for the preview panel.
  *
  * @param int  $image_id Attachment ID.
