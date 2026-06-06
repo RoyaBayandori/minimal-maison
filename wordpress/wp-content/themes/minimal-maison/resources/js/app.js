@@ -96,6 +96,87 @@ function initCraftProcessPreview() {
 }
 
 /**
+ * Featured Creations — horizontal collection rail (mouse drag on fine pointers).
+ */
+function initFeaturedCreationsRail() {
+	const rail = document.querySelector( '.mm-featured-creations__rail' );
+
+	if ( ! rail ) {
+		return;
+	}
+
+	const desktopRail = window.matchMedia( '(min-width: 1200px)' );
+	const finePointer = window.matchMedia( '(hover: hover) and (pointer: fine)' );
+
+	const syncScrollable = () => {
+		if ( ! desktopRail.matches ) {
+			rail.classList.remove( 'is-scrollable', 'is-dragging' );
+			return;
+		}
+
+		rail.classList.toggle( 'is-scrollable', rail.scrollWidth > rail.clientWidth + 1 );
+	};
+
+	syncScrollable();
+	window.addEventListener( 'resize', syncScrollable, { passive: true } );
+	desktopRail.addEventListener( 'change', syncScrollable );
+	rail.querySelectorAll( 'img' ).forEach( ( img ) => {
+		if ( ! img.complete ) {
+			img.addEventListener( 'load', syncScrollable, { once: true } );
+		}
+	} );
+
+	if ( ! finePointer.matches ) {
+		return;
+	}
+
+	let isDragging  = false;
+	let startX      = 0;
+	let scrollStart = 0;
+
+	const endDrag = ( event ) => {
+		if ( ! isDragging ) {
+			return;
+		}
+
+		isDragging = false;
+		rail.classList.remove( 'is-dragging' );
+
+		if ( rail.hasPointerCapture( event.pointerId ) ) {
+			rail.releasePointerCapture( event.pointerId );
+		}
+	};
+
+	rail.addEventListener( 'pointerdown', ( event ) => {
+		if (
+			event.button !== 0
+			|| ! desktopRail.matches
+			|| ! rail.classList.contains( 'is-scrollable' )
+		) {
+			return;
+		}
+
+		isDragging  = true;
+		startX      = event.clientX;
+		scrollStart = rail.scrollLeft;
+		rail.classList.add( 'is-dragging' );
+		rail.setPointerCapture( event.pointerId );
+	} );
+
+	rail.addEventListener( 'pointermove', ( event ) => {
+		if ( ! isDragging ) {
+			return;
+		}
+
+		event.preventDefault();
+		rail.scrollLeft = scrollStart - ( event.clientX - startX );
+	} );
+
+	rail.addEventListener( 'pointerup', endDrag );
+	rail.addEventListener( 'pointercancel', endDrag );
+}
+
+/**
  * Mobile header — hamburger menu toggle.
  */
 function initMobileNav() {
@@ -133,6 +214,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	document.documentElement.classList.add( 'mm-js' );
 
 	initCraftProcessPreview();
+	initFeaturedCreationsRail();
 	initMobileNav();
 
 	const fileInput = document.getElementById( 'mm_request_reference' );

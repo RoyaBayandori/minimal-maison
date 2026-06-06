@@ -385,6 +385,54 @@ function mm_home_featured_creations(): array {
 }
 
 /**
+ * Whether Featured Creations has a complete CTA from CMS.
+ */
+function mm_featured_creations_has_cta(): bool {
+	return '' !== trim( (string) mm_home_acf_url( 'featured_creations_cta_url' ) );
+}
+
+/**
+ * Featured Creations CTA label from CMS.
+ */
+function mm_featured_creations_cta_label(): string {
+	return trim( (string) mm_home_acf_value( 'featured_creations_cta_label' ) );
+}
+
+/**
+ * Render a single Featured Creations piece card.
+ *
+ * @param array{post_id: int, title: string, image_id: int} $creation Creation item.
+ * @param int                                               $index    Loop index.
+ * @param string                                            $sizes    Responsive sizes attribute.
+ */
+function mm_render_featured_creation_piece( array $creation, int $index, string $sizes ): void {
+	?>
+	<article class="mm-featured-creations__piece">
+		<div class="mm-featured-creations__media">
+			<?php
+			echo wp_get_attachment_image(
+				(int) $creation['image_id'],
+				'medium',
+				false,
+				array(
+					'class'     => 'mm-featured-creations__image',
+					'loading'   => 0 === $index ? 'eager' : 'lazy',
+					'sizes'     => $sizes,
+					'alt'       => $creation['title'],
+					'draggable' => 'false',
+				)
+			);
+			?>
+		</div>
+
+		<?php if ( ! empty( $creation['title'] ) ) : ?>
+			<h3 class="mm-featured-creations__title"><?php echo esc_html( $creation['title'] ); ?></h3>
+		<?php endif; ?>
+	</article>
+	<?php
+}
+
+/**
  * Process steps from ACF repeater or defaults.
  *
  * @return array<int, array{number: string, title: string, text: string}>
