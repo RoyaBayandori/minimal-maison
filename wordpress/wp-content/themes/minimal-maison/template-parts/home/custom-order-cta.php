@@ -43,7 +43,7 @@ if ( ! $has_image ) {
 							'class'    => 'mm-custom-order-cta__image',
 							'loading'  => 'lazy',
 							'decoding' => 'async',
-							'sizes'    => '(min-width: 768px) 43rem, 100vw',
+							'sizes'    => '(min-width: 1200px) 43rem, 100vw',
 						)
 					);
 					?>

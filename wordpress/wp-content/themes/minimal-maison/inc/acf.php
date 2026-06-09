@@ -9,6 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 require MM_THEME_DIR . '/inc/acf/json.php';
 require MM_THEME_DIR . '/inc/acf/options-content.php';
+require MM_THEME_DIR . '/inc/acf/footer-content.php';
 require MM_THEME_DIR . '/inc/acf/front-page-setup.php';
 require MM_THEME_DIR . '/inc/acf/home-content.php';
 require MM_THEME_DIR . '/inc/acf/field-groups.php';

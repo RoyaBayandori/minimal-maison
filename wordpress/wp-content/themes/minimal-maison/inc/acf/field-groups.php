@@ -572,6 +572,61 @@ function mm_acf_register_field_groups(): void {
 					'name'  => 'cta_button_url',
 					'type'  => 'text',
 				),
+				array(
+					'key'   => 'field_mm_home_tab_footer',
+					'label' => __( 'Footer Settings', 'minimal-maison' ),
+					'type'  => 'tab',
+				),
+				array(
+					'key'   => 'field_mm_footer_brand_text',
+					'label' => __( 'Brand description', 'minimal-maison' ),
+					'name'  => 'footer_brand_text',
+					'type'  => 'textarea',
+					'rows'  => 3,
+				),
+				array(
+					'key'   => 'field_mm_footer_address',
+					'label' => __( 'Address', 'minimal-maison' ),
+					'name'  => 'footer_address',
+					'type'  => 'textarea',
+					'rows'  => 3,
+				),
+				array(
+					'key'   => 'field_mm_footer_phone',
+					'label' => __( 'Phone', 'minimal-maison' ),
+					'name'  => 'footer_phone',
+					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_mm_footer_email',
+					'label' => __( 'Email', 'minimal-maison' ),
+					'name'  => 'footer_email',
+					'type'  => 'email',
+				),
+				array(
+					'key'   => 'field_mm_footer_whatsapp',
+					'label' => __( 'WhatsApp URL', 'minimal-maison' ),
+					'name'  => 'footer_whatsapp',
+					'type'  => 'url',
+				),
+				array(
+					'key'   => 'field_mm_footer_telegram',
+					'label' => __( 'Telegram URL', 'minimal-maison' ),
+					'name'  => 'footer_telegram',
+					'type'  => 'url',
+				),
+				array(
+					'key'   => 'field_mm_footer_instagram',
+					'label' => __( 'Instagram URL', 'minimal-maison' ),
+					'name'  => 'footer_instagram',
+					'type'  => 'url',
+				),
+				array(
+					'key'   => 'field_mm_footer_linkedin',
+					'label' => __( 'LinkedIn URL', 'minimal-maison' ),
+					'name'  => 'footer_linkedin',
+					'type'  => 'url',
+				),
 			),
 			'location'              => array(
 				array(

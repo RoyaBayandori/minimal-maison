@@ -253,3 +253,4 @@ function mm_maison_footer_channel( string $label, string $url ): void {
 
 	echo esc_html( $label );
 }
+

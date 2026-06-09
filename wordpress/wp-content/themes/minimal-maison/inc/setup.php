@@ -120,7 +120,6 @@ function mm_the_site_logo( array $args = array() ): void {
 
 	if ( $args['footer'] ) {
 		$classes[] = 'site-logo--footer';
-		$classes[] = 'mb-4';
 	}
 
 	if ( $args['header'] ) {
