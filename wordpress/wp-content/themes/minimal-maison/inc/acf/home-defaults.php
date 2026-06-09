@@ -38,9 +38,6 @@ function mm_home_default_strings(): array {
 		'about_heading'             => __( 'کارگاه ساخت طلا و جواهر', 'minimal-maison' ),
 		'about_cta_label'           => __( 'بیشتر بدانید', 'minimal-maison' ),
 		'about_cta_url'             => '/about',
-		'cta_eyebrow'               => __( 'شروع گفت‌وگو با کارگاه', 'minimal-maison' ),
-		'cta_heading'               => __( 'برای شروع مشاوره، چند پرسش کوتاه', 'minimal-maison' ),
-		'cta_description'           => __( 'آنچه برای اولین گفت‌وگو کافی است را با ما به اشتراک بگذارید. معمولاً ظرف یک تا دو روز کاری برای هماهنگی تماس یا پیام با شما اقدام می‌کنیم.', 'minimal-maison' ),
 	);
 }
 

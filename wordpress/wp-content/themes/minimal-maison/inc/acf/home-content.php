@@ -399,6 +399,39 @@ function mm_featured_creations_cta_label(): string {
 }
 
 /**
+ * Whether the homepage Custom Order CTA section should render.
+ */
+function mm_should_show_custom_order_cta(): bool {
+	$title       = trim( (string) mm_home_acf_value( 'cta_title' ) );
+	$button_text = trim( (string) mm_home_acf_value( 'cta_button_text' ) );
+	$button_url  = trim( (string) mm_home_acf_url( 'cta_button_url' ) );
+
+	return '' !== $title && '' !== $button_text && '' !== $button_url;
+}
+
+/**
+ * Custom Order CTA title lines from ACF textarea.
+ *
+ * @return string[]
+ */
+function mm_home_custom_order_cta_title_lines(): array {
+	$title = trim( (string) mm_home_acf_value( 'cta_title' ) );
+
+	if ( '' === $title ) {
+		return array();
+	}
+
+	return array_values(
+		array_filter(
+			array_map(
+				'trim',
+				preg_split( '/\r\n|\r|\n/', $title )
+			)
+		)
+	);
+}
+
+/**
  * Render a single Featured Creations piece card.
  *
  * @param array{post_id: int, title: string, image_id: int} $creation Creation item.

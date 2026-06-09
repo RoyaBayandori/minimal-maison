@@ -37,7 +37,7 @@ get_header();
 	// get_template_part( 'template-parts/home/stories' );
 	// get_template_part( 'template-parts/home/about', 'house' );
 
-	get_template_part( 'template-parts/home/request', 'piece' );
+	get_template_part( 'template-parts/home/custom', 'order-cta' );
 	?>
 </main>
 
