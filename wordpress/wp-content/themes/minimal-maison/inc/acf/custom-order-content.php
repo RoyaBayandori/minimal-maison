@@ -9,6 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 require MM_THEME_DIR . '/inc/acf/custom-order-defaults.php';
 require MM_THEME_DIR . '/inc/acf/co-benefit-fields.php';
+require MM_THEME_DIR . '/inc/acf/co-process-step-fields.php';
 
 /**
  * Whether the current request uses the Custom Order page template.
@@ -346,6 +347,90 @@ function mm_co_faq_items_from_query(): array {
 	}
 
 	return $items;
+}
+
+/**
+ * Process steps for the form sidebar.
+ *
+ * @return array<int, array{icon: string, icon_id: int, title: string, description: string}>
+ */
+function mm_co_process_steps(): array {
+	$defaults = mm_co_default_process_steps();
+	$steps    = array();
+
+	foreach ( mm_co_process_step_field_names() as $index => $field_name ) {
+		$default = $defaults[ $index ] ?? array(
+			'icon'        => 'phone',
+			'icon_id'     => 0,
+			'title'       => '',
+			'description' => '',
+		);
+
+		$group = mm_co_acf_value( $field_name );
+
+		if ( ! is_array( $group ) ) {
+			if ( '' !== $default['title'] ) {
+				$steps[] = $default;
+			}
+			continue;
+		}
+
+		$icon_id     = isset( $group['icon'] ) ? mm_acf_image_to_id( $group['icon'] ) : 0;
+		$title       = isset( $group['title'] ) ? trim( (string) $group['title'] ) : '';
+		$description = isset( $group['description'] ) ? trim( (string) $group['description'] ) : '';
+
+		if ( '' === $title ) {
+			$title       = $default['title'];
+			$description = '' !== $description ? $description : $default['description'];
+		}
+
+		if ( '' === $title ) {
+			continue;
+		}
+
+		$steps[] = array(
+			'icon'        => $default['icon'],
+			'icon_id'     => $icon_id,
+			'title'       => $title,
+			'description' => '' !== $description ? $description : $default['description'],
+		);
+	}
+
+	return $steps;
+}
+
+/**
+ * Render a process step icon from CMS image or built-in SVG.
+ *
+ * @param array{icon: string, icon_id: int} $step Step data.
+ * @return string
+ */
+function mm_co_render_process_step_icon( array $step ): string {
+	$icon_id = (int) ( $step['icon_id'] ?? 0 );
+
+	if ( $icon_id > 0 ) {
+		return wp_get_attachment_image(
+			$icon_id,
+			'thumbnail',
+			false,
+			array(
+				'class'    => 'mm-custom-order-form-section__step-icon-image',
+				'loading'  => 'lazy',
+				'decoding' => 'async',
+			)
+		);
+	}
+
+	$icons = array(
+		'phone'    => '<svg class="mm-custom-order-form-section__step-icon-svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10.5 6.5h3l1.5 6-2.25 1.5a13.5 13.5 0 006.75 6.75L21 18.5l6 1.5v3a2 2 0 01-2 2.15A17.5 17.5 0 016.35 8.5 2 2 0 018.5 6.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+		'idea'     => '<svg class="mm-custom-order-form-section__step-icon-svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 22h8M13 25h6M16 7a6 6 0 00-3 11.2V20h6v-1.8A6 6 0 0016 7z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+		'document' => '<svg class="mm-custom-order-form-section__step-icon-svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M11 7h7l5 5v13a1.5 1.5 0 01-1.5 1.5h-10A1.5 1.5 0 0110 25V8.5A1.5 1.5 0 0111.5 7H11z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M18 7v5h5M13 17h6M13 21h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>',
+		'delivery' => '<svg class="mm-custom-order-form-section__step-icon-svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 11h11v12H8V11zM19 15h4l3 4v4h-7V15z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><circle cx="12" cy="24.5" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="23" cy="24.5" r="1.5" stroke="currentColor" stroke-width="1.2"/></svg>',
+	);
+
+	$icon_key = isset( $step['icon'] ) ? (string) $step['icon'] : 'phone';
+
+	return $icons[ $icon_key ] ?? $icons['phone'];
 }
 
 /**

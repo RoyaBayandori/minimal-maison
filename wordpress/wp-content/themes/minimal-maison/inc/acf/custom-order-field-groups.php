@@ -27,7 +27,8 @@ function mm_acf_register_custom_order_field_groups(): void {
 		return;
 	}
 
-	$benefit_fields = mm_acf_co_benefit_group_fields();
+	$benefit_fields       = mm_acf_co_benefit_group_fields();
+	$process_step_fields  = mm_acf_co_process_step_group_fields();
 
 	acf_add_local_field_group(
 		array(
@@ -103,12 +104,21 @@ function mm_acf_register_custom_order_field_groups(): void {
 				array(
 					array(
 						'key'   => 'field_mm_co_tab_form',
-						'label' => __( 'Form Intro', 'minimal-maison' ),
+						'label' => __( 'Form Section', 'minimal-maison' ),
 						'type'  => 'tab',
 					),
 					array(
+						'key'   => 'field_mm_co_process_heading',
+						'label' => __( 'عنوان مراحل', 'minimal-maison' ),
+						'name'  => 'co_process_heading',
+						'type'  => 'text',
+					),
+				),
+				$process_step_fields,
+				array(
+					array(
 						'key'   => 'field_mm_co_form_heading',
-						'label' => __( 'عنوان بخش', 'minimal-maison' ),
+						'label' => __( 'عنوان فرم', 'minimal-maison' ),
 						'name'  => 'co_form_heading',
 						'type'  => 'text',
 					),

@@ -21,6 +21,7 @@ function mm_co_default_strings(): array {
 		'co_hero_cta_url'            => '#request-form',
 		'co_benefits_heading'        => __( 'چرا سفارش اختصاصی', 'minimal-maison' ),
 		// 'co_benefits_description'    => __( 'در مینیمال هر قطعه یک‌بار و برای یک نفر ساخته می‌شود.', 'minimal-maison' ),
+		'co_process_heading'         => __( 'پس از ثبت درخواست', 'minimal-maison' ),
 		'co_form_heading'            => __( 'فرم درخواست مشاوره', 'minimal-maison' ),
 		'co_form_description'        => __( 'چند پرسش کوتاه — سپس کارگاه برای هماهنگی گفتگو با شما تماس می‌گیرد.', 'minimal-maison' ),
 		'co_form_note'                 => '',
@@ -39,4 +40,38 @@ function mm_co_default_strings(): array {
  */
 function mm_co_default_benefits(): array {
 	return array();
+}
+
+/**
+ * Default process steps for the form sidebar.
+ *
+ * @return array<int, array{icon: string, icon_id: int, title: string, description: string}>
+ */
+function mm_co_default_process_steps(): array {
+	return array(
+		array(
+			'icon'        => 'phone',
+			'icon_id'     => 0,
+			'title'       => __( '۱. بررسی و تماس اولیه', 'minimal-maison' ),
+			'description' => __( 'در اسرع وقت با شما تماس می‌گیریم.', 'minimal-maison' ),
+		),
+		array(
+			'icon'        => 'idea',
+			'icon_id'     => 0,
+			'title'       => __( '۲. گفت‌وگو و بررسی ایده', 'minimal-maison' ),
+			'description' => __( 'ایده و سلیقه شما را بررسی می‌کنیم.', 'minimal-maison' ),
+		),
+		array(
+			'icon'        => 'document',
+			'icon_id'     => 0,
+			'title'       => __( '۳. ارائه طرح و برآورد', 'minimal-maison' ),
+			'description' => __( 'طرح اولیه و برآورد هزینه ارسال می‌شود.', 'minimal-maison' ),
+		),
+		array(
+			'icon'        => 'delivery',
+			'icon_id'     => 0,
+			'title'       => __( '۴. ساخت و تحویل', 'minimal-maison' ),
+			'description' => __( 'پس از تایید، ساخت آغاز و در زمان مقرر تحویل داده می‌شود.', 'minimal-maison' ),
+		),
+	);
 }
