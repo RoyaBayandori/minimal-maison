@@ -220,9 +220,43 @@ function initCustomOrderFaq() {
 		return;
 	}
 
-	const triggers = faqSection.querySelectorAll( '.mm-custom-order-faq__trigger' );
+	const closeFaqItem = ( item ) => {
+		if ( ! item ) {
+			return;
+		}
 
-	triggers.forEach( ( trigger ) => {
+		const trigger = item.querySelector( '.mm-custom-order-faq__trigger' );
+		const panel = item.querySelector( '.mm-custom-order-faq__panel' );
+
+		item.classList.remove( 'is-open' );
+
+		if ( trigger ) {
+			trigger.setAttribute( 'aria-expanded', 'false' );
+		}
+
+		if ( panel ) {
+			panel.style.maxHeight = '0';
+			panel.setAttribute( 'aria-hidden', 'true' );
+		}
+	};
+
+	const openFaqItem = ( item ) => {
+		const trigger = item.querySelector( '.mm-custom-order-faq__trigger' );
+		const panel = item.querySelector( '.mm-custom-order-faq__panel' );
+
+		item.classList.add( 'is-open' );
+
+		if ( trigger ) {
+			trigger.setAttribute( 'aria-expanded', 'true' );
+		}
+
+		if ( panel ) {
+			panel.style.maxHeight = `${ panel.scrollHeight }px`;
+			panel.setAttribute( 'aria-hidden', 'false' );
+		}
+	};
+
+	faqSection.querySelectorAll( '.mm-custom-order-faq__trigger' ).forEach( ( trigger ) => {
 		trigger.addEventListener( 'click', () => {
 			const item = trigger.closest( '.mm-custom-order-faq__item' );
 			const panel = item?.querySelector( '.mm-custom-order-faq__panel' );
@@ -234,33 +268,17 @@ function initCustomOrderFaq() {
 			const isOpen = item.classList.contains( 'is-open' );
 
 			faqSection.querySelectorAll( '.mm-custom-order-faq__item.is-open' ).forEach( ( openItem ) => {
-				if ( openItem === item ) {
-					return;
-				}
-
-				openItem.classList.remove( 'is-open' );
-				const openTrigger = openItem.querySelector( '.mm-custom-order-faq__trigger' );
-				const openPanel = openItem.querySelector( '.mm-custom-order-faq__panel' );
-
-				if ( openTrigger ) {
-					openTrigger.setAttribute( 'aria-expanded', 'false' );
-				}
-
-				if ( openPanel ) {
-					openPanel.hidden = true;
+				if ( openItem !== item ) {
+					closeFaqItem( openItem );
 				}
 			} );
 
 			if ( isOpen ) {
-				item.classList.remove( 'is-open' );
-				trigger.setAttribute( 'aria-expanded', 'false' );
-				panel.hidden = true;
+				closeFaqItem( item );
 				return;
 			}
 
-			item.classList.add( 'is-open' );
-			trigger.setAttribute( 'aria-expanded', 'true' );
-			panel.hidden = false;
+			openFaqItem( item );
 		} );
 	} );
 }

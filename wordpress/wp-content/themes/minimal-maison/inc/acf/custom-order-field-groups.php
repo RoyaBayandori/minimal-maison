@@ -7,6 +7,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+require MM_THEME_DIR . '/inc/acf/co-page-fields.php';
+
 /**
  * Whether Custom Order field groups are loaded from JSON.
  */
@@ -27,170 +29,11 @@ function mm_acf_register_custom_order_field_groups(): void {
 		return;
 	}
 
-	$benefit_fields       = mm_acf_co_benefit_group_fields();
-	$process_step_fields  = mm_acf_co_process_step_group_fields();
-
 	acf_add_local_field_group(
 		array(
 			'key'                   => 'group_mm_custom_order_page',
 			'title'                 => __( 'Custom Order Page', 'minimal-maison' ),
-			'fields'                => array_merge(
-				array(
-					array(
-						'key'   => 'field_mm_co_tab_hero',
-						'label' => __( 'Hero', 'minimal-maison' ),
-						'type'  => 'tab',
-					),
-					array(
-						'key'   => 'field_mm_co_hero_eyebrow',
-						'label' => __( 'برچسب بالای عنوان', 'minimal-maison' ),
-						'name'  => 'co_hero_eyebrow',
-						'type'  => 'text',
-					),
-					array(
-						'key'   => 'field_mm_co_hero_heading',
-						'label' => __( 'عنوان اصلی', 'minimal-maison' ),
-						'name'  => 'co_hero_heading',
-						'type'  => 'text',
-					),
-					array(
-						'key'   => 'field_mm_co_hero_description',
-						'label' => __( 'توضیح', 'minimal-maison' ),
-						'name'  => 'co_hero_description',
-						'type'  => 'textarea',
-						'rows'  => 3,
-					),
-					array(
-						'key'           => 'field_mm_co_hero_image',
-						'label'         => __( 'تصویر', 'minimal-maison' ),
-						'name'          => 'co_hero_image',
-						'type'          => 'image',
-						'return_format' => 'id',
-						'preview_size'  => 'medium',
-						'library'       => 'all',
-					),
-					array(
-						'key'   => 'field_mm_co_hero_cta_label',
-						'label' => __( 'متن دکمه', 'minimal-maison' ),
-						'name'  => 'co_hero_cta_label',
-						'type'  => 'text',
-					),
-					array(
-						'key'   => 'field_mm_co_hero_cta_url',
-						'label' => __( 'لینک دکمه', 'minimal-maison' ),
-						'name'  => 'co_hero_cta_url',
-						'type'  => 'text',
-					),
-					array(
-						'key'   => 'field_mm_co_tab_benefits',
-						'label' => __( 'Benefits', 'minimal-maison' ),
-						'type'  => 'tab',
-					),
-					array(
-						'key'   => 'field_mm_co_benefits_heading',
-						'label' => __( 'عنوان بخش', 'minimal-maison' ),
-						'name'  => 'co_benefits_heading',
-						'type'  => 'text',
-					),
-					array(
-						'key'   => 'field_mm_co_benefits_description',
-						'label' => __( 'توضیح بخش', 'minimal-maison' ),
-						'name'  => 'co_benefits_description',
-						'type'  => 'textarea',
-						'rows'  => 2,
-					),
-				),
-				$benefit_fields,
-				array(
-					array(
-						'key'   => 'field_mm_co_tab_form',
-						'label' => __( 'Form Section', 'minimal-maison' ),
-						'type'  => 'tab',
-					),
-					array(
-						'key'   => 'field_mm_co_process_heading',
-						'label' => __( 'عنوان مراحل', 'minimal-maison' ),
-						'name'  => 'co_process_heading',
-						'type'  => 'text',
-					),
-				),
-				$process_step_fields,
-				array(
-					array(
-						'key'   => 'field_mm_co_form_heading',
-						'label' => __( 'عنوان فرم', 'minimal-maison' ),
-						'name'  => 'co_form_heading',
-						'type'  => 'text',
-					),
-					array(
-						'key'   => 'field_mm_co_form_description',
-						'label' => __( 'توضیح', 'minimal-maison' ),
-						'name'  => 'co_form_description',
-						'type'  => 'textarea',
-						'rows'  => 3,
-					),
-					array(
-						'key'   => 'field_mm_co_form_note',
-						'label' => __( 'یادداشت (اختیاری)', 'minimal-maison' ),
-						'name'  => 'co_form_note',
-						'type'  => 'textarea',
-						'rows'  => 2,
-					),
-					array(
-						'key'   => 'field_mm_co_tab_faq',
-						'label' => __( 'FAQ', 'minimal-maison' ),
-						'type'  => 'tab',
-					),
-					array(
-						'key'   => 'field_mm_co_faq_heading',
-						'label' => __( 'عنوان بخش', 'minimal-maison' ),
-						'name'  => 'co_faq_heading',
-						'type'  => 'text',
-					),
-					array(
-						'key'           => 'field_mm_co_faq_items',
-						'label'         => __( 'پرسش‌ها', 'minimal-maison' ),
-						'name'          => 'co_faq_items',
-						'type'          => 'relationship',
-						'post_type'     => array( 'mm_co_faq' ),
-						'filters'       => array( 'search' ),
-						'min'           => 0,
-						'max'           => 12,
-						'return_format' => 'object',
-					),
-					array(
-						'key'   => 'field_mm_co_tab_final_cta',
-						'label' => __( 'Final CTA', 'minimal-maison' ),
-						'type'  => 'tab',
-					),
-					array(
-						'key'   => 'field_mm_co_final_cta_heading',
-						'label' => __( 'عنوان', 'minimal-maison' ),
-						'name'  => 'co_final_cta_heading',
-						'type'  => 'textarea',
-						'rows'  => 2,
-					),
-					array(
-						'key'   => 'field_mm_co_final_cta_description',
-						'label' => __( 'توضیح', 'minimal-maison' ),
-						'name'  => 'co_final_cta_description',
-						'type'  => 'textarea',
-						'rows'  => 2,
-					),
-					array(
-						'key'   => 'field_mm_co_final_cta_button_label',
-						'label' => __( 'متن دکمه', 'minimal-maison' ),
-						'name'  => 'co_final_cta_button_label',
-						'type'  => 'text',
-					),
-					array(
-						'key'   => 'field_mm_co_final_cta_button_url',
-						'label' => __( 'لینک دکمه', 'minimal-maison' ),
-						'name'  => 'co_final_cta_button_url',
-						'type'  => 'text',
-					),
-				)
-			),
+			'fields'                => mm_acf_co_page_field_definitions(),
 			'location'              => array(
 				array(
 					array(

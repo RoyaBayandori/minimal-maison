@@ -8,8 +8,8 @@
 defined( 'ABSPATH' ) || exit;
 
 require MM_THEME_DIR . '/inc/acf/custom-order-defaults.php';
-require MM_THEME_DIR . '/inc/acf/co-benefit-fields.php';
-require MM_THEME_DIR . '/inc/acf/co-process-step-fields.php';
+require_once MM_THEME_DIR . '/inc/acf/co-benefit-fields.php';
+require_once MM_THEME_DIR . '/inc/acf/co-process-step-fields.php';
 
 /**
  * Whether the current request uses the Custom Order page template.
@@ -178,7 +178,7 @@ function mm_co_image_id( string $field_name ): int {
 }
 
 /**
- * Benefit rows from six fixed group fields.
+ * Benefit rows from fixed group fields on the Custom Order page.
  *
  * @return array<int, array{image_id: int, title: string, description: string}>
  */
@@ -264,24 +264,24 @@ function mm_co_faq_get_answer( int $post_id ): string {
 }
 
 /**
- * FAQ items from Relationship field.
+ * FAQ items from published Custom Order FAQ CPT posts.
  *
  * @return array<int, array{question: string, answer: string}>
  */
 function mm_co_faq_items(): array {
-	if ( ! mm_acf_available() ) {
-		return mm_co_faq_items_from_query();
-	}
+	$posts = get_posts(
+		array(
+			'post_type'      => 'mm_co_faq',
+			'posts_per_page' => -1,
+			'orderby'        => array(
+				'menu_order' => 'ASC',
+				'date'       => 'DESC',
+			),
+			'post_status'    => 'publish',
+		)
+	);
 
-	$post_id = mm_custom_order_page_id();
-
-	if ( ! $post_id ) {
-		return array();
-	}
-
-	$posts = get_field( 'co_faq_items', $post_id );
-
-	if ( ! is_array( $posts ) || empty( $posts ) ) {
+	if ( empty( $posts ) ) {
 		return array();
 	}
 
@@ -309,69 +309,22 @@ function mm_co_faq_items(): array {
 }
 
 /**
- * FAQ items from CPT query when ACF is unavailable.
- *
- * @return array<int, array{question: string, answer: string}>
- */
-function mm_co_faq_items_from_query(): array {
-	$posts = get_posts(
-		array(
-			'post_type'      => 'mm_co_faq',
-			'posts_per_page' => 12,
-			'orderby'        => array(
-				'menu_order' => 'ASC',
-				'date'       => 'DESC',
-			),
-			'post_status'    => 'publish',
-		)
-	);
-
-	if ( empty( $posts ) ) {
-		return array();
-	}
-
-	$items = array();
-
-	foreach ( $posts as $post ) {
-		$question = trim( get_the_title( $post ) );
-		$answer   = mm_co_faq_get_answer( (int) $post->ID );
-
-		if ( '' === $question || '' === $answer ) {
-			continue;
-		}
-
-		$items[] = array(
-			'question' => $question,
-			'answer'   => $answer,
-		);
-	}
-
-	return $items;
-}
-
-/**
  * Process steps for the form sidebar.
  *
  * @return array<int, array{icon: string, icon_id: int, title: string, description: string}>
  */
 function mm_co_process_steps(): array {
-	$defaults = mm_co_default_process_steps();
-	$steps    = array();
+	if ( ! mm_acf_available() || ! mm_custom_order_page_id() ) {
+		return array();
+	}
+
+	$icon_keys = mm_co_process_step_icon_keys();
+	$steps     = array();
 
 	foreach ( mm_co_process_step_field_names() as $index => $field_name ) {
-		$default = $defaults[ $index ] ?? array(
-			'icon'        => 'phone',
-			'icon_id'     => 0,
-			'title'       => '',
-			'description' => '',
-		);
-
 		$group = mm_co_acf_value( $field_name );
 
 		if ( ! is_array( $group ) ) {
-			if ( '' !== $default['title'] ) {
-				$steps[] = $default;
-			}
 			continue;
 		}
 
@@ -380,19 +333,14 @@ function mm_co_process_steps(): array {
 		$description = isset( $group['description'] ) ? trim( (string) $group['description'] ) : '';
 
 		if ( '' === $title ) {
-			$title       = $default['title'];
-			$description = '' !== $description ? $description : $default['description'];
-		}
-
-		if ( '' === $title ) {
 			continue;
 		}
 
 		$steps[] = array(
-			'icon'        => $default['icon'],
+			'icon'        => $icon_keys[ $index ] ?? 'phone',
 			'icon_id'     => $icon_id,
 			'title'       => $title,
-			'description' => '' !== $description ? $description : $default['description'],
+			'description' => $description,
 		);
 	}
 

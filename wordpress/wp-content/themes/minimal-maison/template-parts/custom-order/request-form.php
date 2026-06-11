@@ -141,7 +141,7 @@ $budgets     = mm_jewelry_request_budget_ranges();
 
 	<div class="mm-custom-order-request-form__actions">
 		<button type="submit" class="mm-button mm-custom-order-request-form__submit">
-			<?php esc_html_e( 'ارسال درخواست', 'minimal-maison' ); ?>
+			<?php echo esc_html( mm_co_option( 'co_form_submit_label' ) ); ?>
 		</button>
 	</div>
 </form>

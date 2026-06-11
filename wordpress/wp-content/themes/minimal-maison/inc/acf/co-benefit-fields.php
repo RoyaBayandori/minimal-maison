@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Build one Custom Order benefit group field.
  *
- * @param int $number Benefit slot number (1–6).
+ * @param int $number Benefit slot number (1–3).
  * @return array<string, mixed>
  */
 function mm_acf_co_benefit_group_field( int $number ): array {
@@ -61,7 +61,7 @@ function mm_acf_co_benefit_group_field( int $number ): array {
 function mm_acf_co_benefit_group_fields(): array {
 	$fields = array();
 
-	for ( $number = 1; $number <= 6; $number++ ) {
+	for ( $number = 1; $number <= 3; $number++ ) {
 		$fields[] = mm_acf_co_benefit_group_field( $number );
 	}
 
@@ -78,8 +78,5 @@ function mm_co_benefit_field_names(): array {
 		'co_benefit_1',
 		'co_benefit_2',
 		'co_benefit_3',
-		'co_benefit_4',
-		'co_benefit_5',
-		'co_benefit_6',
 	);
 }

@@ -7,7 +7,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$heading = trim( mm_co_option( 'co_form_heading' ) );
+$heading     = trim( mm_co_option( 'co_form_heading' ) );
+$description = trim( mm_co_option( 'co_form_description' ) );
 
 $request_status = isset( $_GET['mm_request'] ) ? sanitize_key( wp_unslash( $_GET['mm_request'] ) ) : '';
 $error_code     = isset( $_GET['mm_error'] ) ? sanitize_key( wp_unslash( $_GET['mm_error'] ) ) : '';
@@ -24,6 +25,11 @@ $error_code     = isset( $_GET['mm_error'] ) ? sanitize_key( wp_unslash( $_GET['
 							</h2>
 						<?php endif; ?>
 						<span class="mm-custom-order-form-section__diamond" aria-hidden="true"></span>
+						<?php if ( '' !== $description ) : ?>
+							<p class="mm-custom-order-form-section__description">
+								<?php echo esc_html( $description ); ?>
+							</p>
+						<?php endif; ?>
 					</header>
 
 					<?php if ( 'success' === $request_status ) : ?>

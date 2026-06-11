@@ -14,64 +14,36 @@ defined( 'ABSPATH' ) || exit;
  */
 function mm_co_default_strings(): array {
 	return array(
-		'co_hero_eyebrow'            => __( 'سفارش اختصاصی', 'minimal-maison' ),
-		'co_hero_heading'            => __( 'طلایی که فقط برای شما ساخته می‌شود', 'minimal-maison' ),
-		'co_hero_description'        => __( 'از اولین گفتگو تا تحویل، هر مرحله بر اساس سلیقه، داستان و خواسته شما پیش می‌رود — نه بر اساس ویترین.', 'minimal-maison' ),
-		'co_hero_cta_label'          => __( 'شروع درخواست', 'minimal-maison' ),
-		'co_hero_cta_url'            => '#request-form',
-		'co_benefits_heading'        => __( 'چرا سفارش اختصاصی', 'minimal-maison' ),
-		// 'co_benefits_description'    => __( 'در مینیمال هر قطعه یک‌بار و برای یک نفر ساخته می‌شود.', 'minimal-maison' ),
-		'co_process_heading'         => __( 'پس از ثبت درخواست', 'minimal-maison' ),
-		'co_form_heading'            => __( 'فرم درخواست مشاوره', 'minimal-maison' ),
-		'co_form_description'        => __( 'چند پرسش کوتاه — سپس کارگاه برای هماهنگی گفتگو با شما تماس می‌گیرد.', 'minimal-maison' ),
-		'co_form_note'                 => '',
-		'co_faq_heading'             => __( 'پرسش‌های متداول', 'minimal-maison' ),
-		'co_final_cta_heading'       => __( 'آماده شروع گفت‌وگو هستید؟', 'minimal-maison' ),
-		'co_final_cta_description'   => __( 'فرم را تکمیل کنید — معمولاً ظرف یک تا دو روز کاری برای هماهنگی با شما تماس می‌گیریم.', 'minimal-maison' ),
-		'co_final_cta_button_label'  => __( 'ارسال درخواست', 'minimal-maison' ),
-		'co_final_cta_button_url'    => '#request-form',
+		'co_hero_eyebrow'              => '',
+		'co_hero_heading'              => '',
+		'co_hero_description'          => '',
+		'co_hero_cta_label'            => '',
+		'co_hero_cta_url'              => '',
+		'co_benefits_heading'          => '',
+		'co_benefits_description'      => '',
+		'co_process_heading'           => '',
+		'co_form_heading'              => '',
+		'co_form_description'          => '',
+		'co_form_submit_label'         => '',
+		'co_faq_heading'               => '',
+		'co_faq_description'           => '',
+		'co_final_cta_heading'         => '',
+		'co_final_cta_description'     => '',
+		'co_final_cta_button_label'    => '',
+		'co_final_cta_button_url'      => '',
 	);
 }
 
 /**
- * Benefit cards are CMS-only. No front-end fallback rows.
+ * Built-in SVG icon keys for process steps when no CMS icon is uploaded.
  *
- * @return array<int, array{image_id: int, title: string, description: string}>
+ * @return string[]
  */
-function mm_co_default_benefits(): array {
-	return array();
-}
-
-/**
- * Default process steps for the form sidebar.
- *
- * @return array<int, array{icon: string, icon_id: int, title: string, description: string}>
- */
-function mm_co_default_process_steps(): array {
+function mm_co_process_step_icon_keys(): array {
 	return array(
-		array(
-			'icon'        => 'phone',
-			'icon_id'     => 0,
-			'title'       => __( '۱. بررسی و تماس اولیه', 'minimal-maison' ),
-			'description' => __( 'در اسرع وقت با شما تماس می‌گیریم.', 'minimal-maison' ),
-		),
-		array(
-			'icon'        => 'idea',
-			'icon_id'     => 0,
-			'title'       => __( '۲. گفت‌وگو و بررسی ایده', 'minimal-maison' ),
-			'description' => __( 'ایده و سلیقه شما را بررسی می‌کنیم.', 'minimal-maison' ),
-		),
-		array(
-			'icon'        => 'document',
-			'icon_id'     => 0,
-			'title'       => __( '۳. ارائه طرح و برآورد', 'minimal-maison' ),
-			'description' => __( 'طرح اولیه و برآورد هزینه ارسال می‌شود.', 'minimal-maison' ),
-		),
-		array(
-			'icon'        => 'delivery',
-			'icon_id'     => 0,
-			'title'       => __( '۴. ساخت و تحویل', 'minimal-maison' ),
-			'description' => __( 'پس از تایید، ساخت آغاز و در زمان مقرر تحویل داده می‌شود.', 'minimal-maison' ),
-		),
+		'phone',
+		'idea',
+		'document',
+		'delivery',
 	);
 }
