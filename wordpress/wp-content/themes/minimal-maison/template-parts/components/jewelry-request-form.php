@@ -46,7 +46,7 @@ $budgets     = mm_jewelry_request_budget_ranges();
 				<div class="mm-request-form__row">
 					<div class="mm-form-field">
 						<label class="mm-form-label" for="mm_request_phone">
-							<?php esc_html_e( 'شماره تماس برای هماهنگی', 'minimal-maison' ); ?>
+							<?php esc_html_e( 'شماره تماس / واتساپ', 'minimal-maison' ); ?>
 							<span class="mm-form-required" aria-hidden="true">*</span>
 						</label>
 						<input
@@ -63,18 +63,17 @@ $budgets     = mm_jewelry_request_budget_ranges();
 					</div>
 
 					<div class="mm-form-field">
-						<label class="mm-form-label" for="mm_request_whatsapp">
-							<?php esc_html_e( 'واتساپ (در صورت تمایل)', 'minimal-maison' ); ?>
+						<label class="mm-form-label" for="mm_request_email">
+							<?php esc_html_e( 'ایمیل', 'minimal-maison' ); ?>
 							<span class="mm-form-optional"><?php esc_html_e( 'اختیاری', 'minimal-maison' ); ?></span>
 						</label>
 						<input
 							class="mm-form-input mm-form-input--ltr"
-							type="tel"
-							name="mm_request_whatsapp"
-							id="mm_request_whatsapp"
-							inputmode="tel"
-							autocomplete="tel"
-							placeholder="09123456789"
+							type="email"
+							name="mm_request_email"
+							id="mm_request_email"
+							inputmode="email"
+							autocomplete="email"
 							dir="ltr"
 						>
 					</div>
@@ -151,13 +150,14 @@ $budgets     = mm_jewelry_request_budget_ranges();
 						<input
 							class="mm-form-file-input"
 							type="file"
-							name="mm_request_reference"
+							name="mm_request_references[]"
 							id="mm_request_reference"
 							accept="image/jpeg,image/png,image/webp"
+							multiple
 						>
 						<label class="mm-form-file-trigger" for="mm_request_reference">
 							<span class="mm-form-file-trigger__title"><?php esc_html_e( 'انتخاب فایل', 'minimal-maison' ); ?></span>
-							<span class="mm-form-file-trigger__hint"><?php esc_html_e( 'JPG، PNG یا WebP — حداکثر ۵ مگابایت', 'minimal-maison' ); ?></span>
+							<span class="mm-form-file-trigger__hint"><?php esc_html_e( 'JPG، PNG یا WebP — حداکثر ۵ تصویر، هر کدام تا ۵ مگابایت', 'minimal-maison' ); ?></span>
 							<span class="mm-form-file-name" data-empty="<?php esc_attr_e( 'فایلی انتخاب نشده', 'minimal-maison' ); ?>">
 								<?php esc_html_e( 'فایلی انتخاب نشده', 'minimal-maison' ); ?>
 							</span>

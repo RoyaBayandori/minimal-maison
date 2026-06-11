@@ -32,12 +32,13 @@ function mm_jewelry_request_admin_columns( array $columns ): array {
 		$new['cb'] = $columns['cb'];
 	}
 
-	$new['title']       = __( 'مشتری', 'minimal-maison' );
-	$new['mm_phone']    = __( 'تماس', 'minimal-maison' );
-	$new['mm_type']     = __( 'نوع سفارش', 'minimal-maison' );
-	$new['mm_budget']   = __( 'بودجه', 'minimal-maison' );
+	$new['title']        = __( 'مشتری', 'minimal-maison' );
+	$new['mm_status']    = __( 'وضعیت', 'minimal-maison' );
+	$new['mm_phone']     = __( 'تماس', 'minimal-maison' );
+	$new['mm_type']      = __( 'نوع سفارش', 'minimal-maison' );
+	$new['mm_budget']    = __( 'بودجه', 'minimal-maison' );
 	$new['mm_reference'] = __( 'تصویر', 'minimal-maison' );
-	$new['date']        = __( 'تاریخ', 'minimal-maison' );
+	$new['date']         = __( 'تاریخ', 'minimal-maison' );
 
 	return $new;
 }
@@ -50,6 +51,10 @@ function mm_jewelry_request_admin_columns( array $columns ): array {
  */
 function mm_jewelry_request_admin_column_content( string $column, int $post_id ): void {
 	switch ( $column ) {
+		case 'mm_status':
+			echo esc_html( mm_jewelry_request_status_label( mm_jewelry_request_get_status( $post_id ) ) );
+			break;
+
 		case 'mm_phone':
 			$phone    = mm_jewelry_request_get_meta( $post_id, 'phone' );
 			$whatsapp = mm_jewelry_request_get_meta( $post_id, 'whatsapp' );
@@ -62,32 +67,39 @@ function mm_jewelry_request_admin_column_content( string $column, int $post_id )
 			break;
 
 		case 'mm_type':
-			$type = mm_jewelry_request_get_meta( $post_id, 'order_type' );
-			echo esc_html( mm_jewelry_request_order_type_label( $type ) );
+			echo esc_html( mm_jewelry_request_order_type_label( mm_jewelry_request_get_piece_type_slug( $post_id ) ) );
 			break;
 
 		case 'mm_budget':
-			$budget = mm_jewelry_request_get_meta( $post_id, 'budget' );
-			echo esc_html( mm_jewelry_request_budget_label( $budget ) );
+			echo esc_html( mm_jewelry_request_budget_label( mm_jewelry_request_get_budget_slug( $post_id ) ) );
 			break;
 
 		case 'mm_reference':
-			$ref_id = (int) mm_jewelry_request_get_meta( $post_id, 'reference_id' );
+			$reference_ids = mm_jewelry_request_get_reference_ids( $post_id );
 
-			if ( $ref_id ) {
-				$url = wp_get_attachment_image_url( $ref_id, 'thumbnail' );
+			if ( empty( $reference_ids ) ) {
+				echo '<span class="description">—</span>';
+				break;
+			}
 
-				if ( $url ) {
+			$ref_id = (int) $reference_ids[0];
+			$url    = wp_get_attachment_image_url( $ref_id, 'thumbnail' );
+
+			if ( $url ) {
+				printf(
+					'<a href="%1$s" target="_blank" rel="noopener"><img src="%2$s" alt="" width="48" height="48" style="object-fit:cover;border-radius:2px;"></a>',
+					esc_url( wp_get_attachment_url( $ref_id ) ),
+					esc_url( $url )
+				);
+
+				if ( count( $reference_ids ) > 1 ) {
 					printf(
-						'<a href="%1$s" target="_blank" rel="noopener"><img src="%2$s" alt="" width="48" height="48" style="object-fit:cover;border-radius:2px;"></a>',
-						esc_url( wp_get_attachment_url( $ref_id ) ),
-						esc_url( $url )
+						'<br><span class="description">+%d</span>',
+						(int) ( count( $reference_ids ) - 1 )
 					);
-				} else {
-					esc_html_e( 'دارد', 'minimal-maison' );
 				}
 			} else {
-				echo '<span class="description">—</span>';
+				esc_html_e( 'دارد', 'minimal-maison' );
 			}
 			break;
 	}
@@ -127,21 +139,27 @@ function mm_jewelry_request_register_meta_boxes(): void {
  * @param WP_Post $post Request post.
  */
 function mm_jewelry_request_render_details_meta_box( WP_Post $post ): void {
-	$name        = mm_jewelry_request_get_meta( $post->ID, 'name' );
-	$phone       = mm_jewelry_request_get_meta( $post->ID, 'phone' );
-	$whatsapp    = mm_jewelry_request_get_meta( $post->ID, 'whatsapp' );
-	$order_type  = mm_jewelry_request_get_meta( $post->ID, 'order_type' );
-	$budget      = mm_jewelry_request_get_meta( $post->ID, 'budget' );
-	$details     = mm_jewelry_request_get_meta( $post->ID, 'details' );
-	$reference_id = (int) mm_jewelry_request_get_meta( $post->ID, 'reference_id' );
+	$name       = mm_jewelry_request_get_meta( $post->ID, 'name' );
+	$phone      = mm_jewelry_request_get_meta( $post->ID, 'phone' );
+	$email      = mm_jewelry_request_get_meta( $post->ID, 'email' );
+	$whatsapp   = mm_jewelry_request_get_meta( $post->ID, 'whatsapp' );
+	$details    = mm_jewelry_request_get_meta( $post->ID, 'details' );
+	$type_slug  = mm_jewelry_request_get_piece_type_slug( $post->ID );
+	$budget_slug = mm_jewelry_request_get_budget_slug( $post->ID );
+	$reference_ids = mm_jewelry_request_get_reference_ids( $post->ID );
 
 	$rows = array(
+		array( __( 'وضعیت', 'minimal-maison' ), mm_jewelry_request_status_label( mm_jewelry_request_get_status( $post->ID ) ) ),
 		array( __( 'نام و نام خانوادگی', 'minimal-maison' ), $name ),
-		array( __( 'شماره تماس', 'minimal-maison' ), $phone ),
-		array( __( 'واتساپ', 'minimal-maison' ), $whatsapp ?: '—' ),
-		array( __( 'نوع سفارش', 'minimal-maison' ), mm_jewelry_request_order_type_label( $order_type ) ),
-		array( __( 'بودجه تقریبی', 'minimal-maison' ), mm_jewelry_request_budget_label( $budget ) ),
+		array( __( 'شماره تماس / واتساپ', 'minimal-maison' ), $phone ),
+		array( __( 'ایمیل', 'minimal-maison' ), $email ?: '—' ),
+		array( __( 'نوع سفارش', 'minimal-maison' ), mm_jewelry_request_order_type_label( $type_slug ) ),
+		array( __( 'بودجه تقریبی', 'minimal-maison' ), mm_jewelry_request_budget_label( $budget_slug ) ),
 	);
+
+	if ( $whatsapp && $whatsapp !== $phone ) {
+		$rows[] = array( __( 'واتساپ (قدیمی)', 'minimal-maison' ), $whatsapp );
+	}
 
 	?>
 	<table class="widefat striped mm-jewelry-request-table">
@@ -156,18 +174,25 @@ function mm_jewelry_request_render_details_meta_box( WP_Post $post ): void {
 				<th scope="row"><?php esc_html_e( 'توضیحات سفارش', 'minimal-maison' ); ?></th>
 				<td><?php echo nl2br( esc_html( $details ) ); ?></td>
 			</tr>
-			<?php if ( $reference_id ) : ?>
+			<?php if ( ! empty( $reference_ids ) ) : ?>
 				<tr>
-					<th scope="row"><?php esc_html_e( 'تصویر مرجع', 'minimal-maison' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'تصاویر مرجع', 'minimal-maison' ); ?></th>
 					<td>
-						<?php
-						$full_url = wp_get_attachment_url( $reference_id );
+						<div class="mm-jewelry-request-gallery">
+							<?php foreach ( $reference_ids as $reference_id ) : ?>
+								<?php
+								$full_url = wp_get_attachment_url( $reference_id );
 
-						if ( $full_url ) {
-							echo wp_get_attachment_image( $reference_id, 'medium', false, array( 'style' => 'max-width:320px;height:auto;' ) );
-							echo '<p><a href="' . esc_url( $full_url ) . '" target="_blank" rel="noopener">' . esc_html__( 'مشاهده اندازه اصلی', 'minimal-maison' ) . '</a></p>';
-						}
-						?>
+								if ( ! $full_url ) {
+									continue;
+								}
+								?>
+								<div class="mm-jewelry-request-gallery__item">
+									<?php echo wp_get_attachment_image( $reference_id, 'medium', false, array( 'style' => 'max-width:220px;height:auto;' ) ); ?>
+									<p><a href="<?php echo esc_url( $full_url ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'مشاهده اندازه اصلی', 'minimal-maison' ); ?></a></p>
+								</div>
+							<?php endforeach; ?>
+						</div>
 					</td>
 				</tr>
 			<?php endif; ?>
@@ -199,6 +224,14 @@ function mm_jewelry_request_admin_styles(): void {
 	<style>
 		.mm-jewelry-request-table th {
 			font-weight: 600;
+		}
+		.mm-jewelry-request-gallery {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 1rem;
+		}
+		.mm-jewelry-request-gallery__item {
+			max-width: 220px;
 		}
 		.post-type-mm_jewelry_request .page-title-action {
 			display: none;

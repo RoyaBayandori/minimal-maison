@@ -61,6 +61,10 @@ function minimal_maison_body_classes( array $classes ): array {
 		$classes[] = 'mm-rtl';
 	}
 
+	if ( is_page_template( 'page-custom-order.php' ) ) {
+		$classes[] = 'mm-custom-order-page';
+	}
+
 	return $classes;
 }
 add_filter( 'body_class', 'minimal_maison_body_classes' );

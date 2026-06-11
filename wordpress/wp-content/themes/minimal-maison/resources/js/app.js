@@ -210,12 +210,68 @@ function initMobileNav() {
 	} );
 }
 
+/**
+ * FAQ accordion — Custom Order landing page only.
+ */
+function initCustomOrderFaq() {
+	const faqSection = document.querySelector( '.mm-custom-order-faq' );
+
+	if ( ! faqSection ) {
+		return;
+	}
+
+	const triggers = faqSection.querySelectorAll( '.mm-custom-order-faq__trigger' );
+
+	triggers.forEach( ( trigger ) => {
+		trigger.addEventListener( 'click', () => {
+			const item = trigger.closest( '.mm-custom-order-faq__item' );
+			const panel = item?.querySelector( '.mm-custom-order-faq__panel' );
+
+			if ( ! item || ! panel ) {
+				return;
+			}
+
+			const isOpen = item.classList.contains( 'is-open' );
+
+			faqSection.querySelectorAll( '.mm-custom-order-faq__item.is-open' ).forEach( ( openItem ) => {
+				if ( openItem === item ) {
+					return;
+				}
+
+				openItem.classList.remove( 'is-open' );
+				const openTrigger = openItem.querySelector( '.mm-custom-order-faq__trigger' );
+				const openPanel = openItem.querySelector( '.mm-custom-order-faq__panel' );
+
+				if ( openTrigger ) {
+					openTrigger.setAttribute( 'aria-expanded', 'false' );
+				}
+
+				if ( openPanel ) {
+					openPanel.hidden = true;
+				}
+			} );
+
+			if ( isOpen ) {
+				item.classList.remove( 'is-open' );
+				trigger.setAttribute( 'aria-expanded', 'false' );
+				panel.hidden = true;
+				return;
+			}
+
+			item.classList.add( 'is-open' );
+			trigger.setAttribute( 'aria-expanded', 'true' );
+			panel.hidden = false;
+		} );
+	} );
+}
+
 document.addEventListener( 'DOMContentLoaded', () => {
 	document.documentElement.classList.add( 'mm-js' );
 
 	initCraftProcessPreview();
 	initFeaturedCreationsRail();
 	initMobileNav();
+	initCustomOrderFaq();
 
 	const fileInput = document.getElementById( 'mm_request_reference' );
 
@@ -234,8 +290,18 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	const emptyLabel = fileName.dataset.empty || fileName.textContent;
 
 	fileInput.addEventListener( 'change', () => {
-		const selected = fileInput.files?.[ 0 ];
+		const files = fileInput.files;
 
-		fileName.textContent = selected ? selected.name : emptyLabel;
+		if ( ! files || files.length === 0 ) {
+			fileName.textContent = emptyLabel;
+			return;
+		}
+
+		if ( files.length === 1 ) {
+			fileName.textContent = files[ 0 ].name;
+			return;
+		}
+
+		fileName.textContent = `${ files.length } فایل انتخاب شد`;
 	} );
 } );
