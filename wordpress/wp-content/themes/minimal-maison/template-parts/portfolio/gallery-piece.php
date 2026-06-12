@@ -22,11 +22,8 @@ $category_attr  = ! empty( $item['category_slugs'] )
 $category_label = ! empty( $item['category_names'] )
 	? (string) $item['category_names'][0]
 	: '';
-$title    = isset( $item['title'] ) ? (string) $item['title'] : '';
-$subtitle = isset( $item['subtitle'] ) ? (string) $item['subtitle'] : '';
-$story    = isset( $item['story'] ) ? (string) $item['story'] : '';
-$year     = isset( $item['year'] ) ? (string) $item['year'] : '';
-$item_id  = isset( $item['id'] ) ? (int) $item['id'] : 0;
+$title   = isset( $item['title'] ) ? (string) $item['title'] : '';
+$item_id = isset( $item['id'] ) ? (int) $item['id'] : 0;
 ?>
 <article
 	class="mm-portfolio-gallery__piece"
@@ -41,12 +38,6 @@ $item_id  = isset( $item['id'] ) ? (int) $item['id'] : 0;
 		type="button"
 		class="mm-portfolio-gallery__trigger"
 		data-portfolio-open
-		data-portfolio-full="<?php echo esc_url( (string) $item['full_url'] ); ?>"
-		data-portfolio-title="<?php echo esc_attr( $title ); ?>"
-		data-portfolio-category="<?php echo esc_attr( $category_label ); ?>"
-		data-portfolio-subtitle="<?php echo esc_attr( $subtitle ); ?>"
-		data-portfolio-story="<?php echo esc_attr( $story ); ?>"
-		data-portfolio-year="<?php echo esc_attr( $year ); ?>"
 		aria-label="<?php echo esc_attr( sprintf( __( 'مشاهده اثر: %s', 'minimal-maison' ), $title ) ); ?>"
 	>
 		<div class="mm-portfolio-gallery__frame">

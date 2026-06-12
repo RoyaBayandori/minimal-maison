@@ -131,57 +131,50 @@ $manifest      = $has_items ? mm_portfolio_gallery_manifest() : array();
 			<div class="mm-portfolio-lightbox__backdrop" data-portfolio-lightbox-close></div>
 
 			<div class="mm-portfolio-lightbox__dialog">
-				<button
-					type="button"
-					class="mm-portfolio-lightbox__close"
-					data-portfolio-lightbox-close
-					aria-label="<?php esc_attr_e( 'بستن', 'minimal-maison' ); ?>"
-				>
-					<span aria-hidden="true">&times;</span>
-				</button>
-
 				<div class="mm-portfolio-lightbox__layout">
-					<div class="mm-portfolio-lightbox__media">
-						<img
-							class="mm-portfolio-lightbox__image"
-							data-portfolio-lightbox-image
-							alt=""
-						/>
-					</div>
+					<button
+						type="button"
+						class="mm-portfolio-lightbox__close"
+						data-portfolio-lightbox-close
+						aria-label="<?php esc_attr_e( 'بستن', 'minimal-maison' ); ?>"
+					>
+						<span aria-hidden="true">&times;</span>
+					</button>
 
 					<aside class="mm-portfolio-lightbox__panel mm-editorial" dir="rtl">
-						<div class="mm-portfolio-lightbox__panel-inner">
-							<p class="mm-portfolio-lightbox__category" data-portfolio-lightbox-category hidden></p>
+						<div class="mm-portfolio-lightbox__panel-content">
+							<div class="mm-portfolio-lightbox__label-group">
+								<h2 id="mm-portfolio-lightbox-title" class="mm-portfolio-lightbox__title" data-portfolio-lightbox-title></h2>
 
-							<h2 id="mm-portfolio-lightbox-title" class="mm-portfolio-lightbox__title" data-portfolio-lightbox-title></h2>
+								<hr class="mm-portfolio-lightbox__rule" aria-hidden="true" />
 
-							<div class="mm-portfolio-lightbox__story-block" data-portfolio-lightbox-story-wrap hidden>
-								<p class="mm-portfolio-lightbox__label"><?php esc_html_e( 'روایت آتلیه', 'minimal-maison' ); ?></p>
-								<p class="mm-portfolio-lightbox__story" data-portfolio-lightbox-story></p>
+								<p class="mm-portfolio-lightbox__category" data-portfolio-lightbox-category hidden></p>
+
+								<p class="mm-portfolio-lightbox__year" data-portfolio-lightbox-year hidden></p>
 							</div>
-
-							<div class="mm-portfolio-lightbox__meta-block" data-portfolio-lightbox-meta-wrap hidden>
-								<p class="mm-portfolio-lightbox__label"><?php esc_html_e( 'جنس و ساخت', 'minimal-maison' ); ?></p>
-								<p class="mm-portfolio-lightbox__meta" data-portfolio-lightbox-meta></p>
-							</div>
-
-							<div class="mm-portfolio-lightbox__year-block" data-portfolio-lightbox-year-wrap hidden>
-								<p class="mm-portfolio-lightbox__label"><?php esc_html_e( 'جزئیات خلق', 'minimal-maison' ); ?></p>
-								<p class="mm-portfolio-lightbox__year" data-portfolio-lightbox-year></p>
-							</div>
-
-							<nav class="mm-portfolio-lightbox__nav" aria-label="<?php esc_attr_e( 'پیمایش گالری', 'minimal-maison' ); ?>">
-								<button type="button" class="mm-portfolio-lightbox__nav-btn" data-portfolio-lightbox-prev>
-									<span class="mm-portfolio-lightbox__nav-arrow" aria-hidden="true">&#8592;</span>
-									<span><?php esc_html_e( 'قبلی', 'minimal-maison' ); ?></span>
-								</button>
-								<button type="button" class="mm-portfolio-lightbox__nav-btn" data-portfolio-lightbox-next>
-									<span><?php esc_html_e( 'بعدی', 'minimal-maison' ); ?></span>
-									<span class="mm-portfolio-lightbox__nav-arrow" aria-hidden="true">&#8594;</span>
-								</button>
-							</nav>
 						</div>
+
+						<nav class="mm-portfolio-lightbox__nav" aria-label="<?php esc_attr_e( 'پیمایش گالری', 'minimal-maison' ); ?>">
+							<button type="button" class="mm-portfolio-lightbox__nav-btn mm-portfolio-lightbox__nav-btn--prev" data-portfolio-lightbox-prev>
+								<span class="mm-portfolio-lightbox__nav-arrow" aria-hidden="true">&#8594;</span>
+								<span class="mm-portfolio-lightbox__nav-label"><?php esc_html_e( 'قبلی', 'minimal-maison' ); ?></span>
+							</button>
+							<button type="button" class="mm-portfolio-lightbox__nav-btn mm-portfolio-lightbox__nav-btn--next" data-portfolio-lightbox-next>
+								<span class="mm-portfolio-lightbox__nav-label"><?php esc_html_e( 'بعدی', 'minimal-maison' ); ?></span>
+								<span class="mm-portfolio-lightbox__nav-arrow" aria-hidden="true">&#8592;</span>
+							</button>
+						</nav>
 					</aside>
+
+					<div class="mm-portfolio-lightbox__media">
+						<div class="mm-portfolio-lightbox__image-wrap">
+							<img
+								class="mm-portfolio-lightbox__image"
+								data-portfolio-lightbox-image
+								alt=""
+							/>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

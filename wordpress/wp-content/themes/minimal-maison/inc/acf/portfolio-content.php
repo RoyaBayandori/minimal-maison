@@ -348,22 +348,12 @@ function mm_portfolio_map_creation_item( WP_Post $post ): ?array {
 	$full     = wp_get_attachment_image_src( $image_id, 'mm-portfolio-gallery' );
 	$full_url = is_array( $full ) && ! empty( $full[0] ) ? (string) $full[0] : (string) wp_get_attachment_url( $image_id );
 
-	$subtitle = '';
-	$story    = '';
-
-	if ( mm_acf_available() ) {
-		$subtitle = trim( (string) get_field( 'creation_subtitle', $post->ID ) );
-		$story    = trim( (string) get_field( 'creation_story', $post->ID ) );
-	}
-
 	return array(
 		'id'             => (int) $post->ID,
 		'title'          => get_the_title( $post ),
 		'image_id'       => $image_id,
 		'full_url'       => $full_url,
-		'subtitle'       => $subtitle,
-		'story'          => $story,
-		'year'           => get_the_date( 'Y', $post ),
+		'year'           => mm_jalali_year_from_post( $post ),
 		'category_slugs' => $slugs,
 		'category_names' => $names,
 	);
@@ -377,8 +367,6 @@ function mm_portfolio_map_creation_item( WP_Post $post ): ?array {
  *     title: string,
  *     image_id: int,
  *     full_url: string,
- *     subtitle: string,
- *     story: string,
  *     year: string,
  *     category_slugs: string[],
  *     category_names: string[]
@@ -465,9 +453,7 @@ function mm_portfolio_gallery_manifest(): array {
 		$manifest[] = array(
 			'id'       => (int) $item['id'],
 			'title'    => (string) $item['title'],
-			'category' => ! empty( $item['category_names'] ) ? implode( '، ', $item['category_names'] ) : '',
-			'subtitle' => (string) $item['subtitle'],
-			'story'    => (string) $item['story'],
+			'category' => ! empty( $item['category_names'] ) ? (string) $item['category_names'][0] : '',
 			'year'     => (string) $item['year'],
 			'full'     => (string) $item['full_url'],
 			'cats'     => array_values( (array) ( $item['category_slugs'] ?? array() ) ),

@@ -303,12 +303,7 @@ function initPortfolioGallery() {
 	const lightboxImage = lightbox?.querySelector( '[data-portfolio-lightbox-image]' );
 	const lightboxTitle = lightbox?.querySelector( '[data-portfolio-lightbox-title]' );
 	const lightboxCategory = lightbox?.querySelector( '[data-portfolio-lightbox-category]' );
-	const lightboxMeta = lightbox?.querySelector( '[data-portfolio-lightbox-meta]' );
-	const lightboxMetaWrap = lightbox?.querySelector( '[data-portfolio-lightbox-meta-wrap]' );
-	const lightboxStory = lightbox?.querySelector( '[data-portfolio-lightbox-story]' );
-	const lightboxStoryWrap = lightbox?.querySelector( '[data-portfolio-lightbox-story-wrap]' );
 	const lightboxYear = lightbox?.querySelector( '[data-portfolio-lightbox-year]' );
-	const lightboxYearWrap = lightbox?.querySelector( '[data-portfolio-lightbox-year-wrap]' );
 	const manifestNode = section.querySelector( '[data-portfolio-manifest]' );
 
 	if ( ! grid || ! manifestNode ) {
@@ -365,11 +360,9 @@ function initPortfolioGallery() {
 
 			setLightboxField( lightboxTitle, null, entry.title ?? '' );
 			setLightboxField( lightboxCategory, null, entry.category ?? '' );
-			setLightboxField( lightboxMeta, lightboxMetaWrap, entry.subtitle ?? '' );
-			setLightboxField( lightboxStory, lightboxStoryWrap, entry.story ?? '' );
 			setLightboxField(
 				lightboxYear,
-				lightboxYearWrap,
+				null,
 				entry.year ? String( entry.year ) : ''
 			);
 
@@ -378,7 +371,7 @@ function initPortfolioGallery() {
 
 		if ( animate && lightboxImage.getAttribute( 'src' ) ) {
 			lightboxImage.classList.add( 'is-changing' );
-			window.setTimeout( applyContent, 240 );
+			window.setTimeout( applyContent, 300 );
 			return;
 		}
 
@@ -407,21 +400,24 @@ function initPortfolioGallery() {
 	};
 
 	const closeLightbox = () => {
-		if ( ! lightbox || ! lightboxImage ) {
+		if ( ! lightbox || ! lightboxImage || lightbox.classList.contains( 'is-closing' ) ) {
 			return;
 		}
 
-		lightbox.hidden = true;
+		lightbox.classList.add( 'is-closing' );
 		lightbox.classList.remove( 'is-open' );
-		lightbox.setAttribute( 'aria-hidden', 'true' );
-		lightboxImage.removeAttribute( 'src' );
-		lightboxImage.classList.remove( 'is-changing' );
-		setLightboxField( lightboxTitle, null, '' );
-		setLightboxField( lightboxCategory, null, '' );
-		setLightboxField( lightboxMeta, lightboxMetaWrap, '' );
-		setLightboxField( lightboxStory, lightboxStoryWrap, '' );
-		setLightboxField( lightboxYear, lightboxYearWrap, '' );
-		document.body.classList.remove( 'mm-portfolio-lightbox-open' );
+
+		window.setTimeout( () => {
+			lightbox.hidden = true;
+			lightbox.classList.remove( 'is-closing' );
+			lightbox.setAttribute( 'aria-hidden', 'true' );
+			lightboxImage.removeAttribute( 'src' );
+			lightboxImage.classList.remove( 'is-changing' );
+			setLightboxField( lightboxTitle, null, '' );
+			setLightboxField( lightboxCategory, null, '' );
+			setLightboxField( lightboxYear, null, '' );
+			document.body.classList.remove( 'mm-portfolio-lightbox-open' );
+		}, 300 );
 	};
 
 	const stepLightbox = ( direction ) => {
