@@ -134,6 +134,30 @@ function minimal_maison_enqueue_assets(): void {
 add_action( 'wp_enqueue_scripts', 'minimal_maison_enqueue_assets' );
 
 /**
+ * Portfolio gallery AJAX config for batched loading.
+ */
+function minimal_maison_portfolio_gallery_script_data(): void {
+	if ( ! mm_is_portfolio_page() && ! mm_is_portfolio_archive_page() ) {
+		return;
+	}
+
+	if ( ! wp_script_is( 'minimal-maison-app', 'enqueued' ) ) {
+		return;
+	}
+
+	wp_localize_script(
+		'minimal-maison-app',
+		'mmPortfolioGallery',
+		array(
+			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+			'nonce'   => wp_create_nonce( 'mm_portfolio_gallery' ),
+			'batch'   => mm_portfolio_gallery_page_size(),
+		)
+	);
+}
+add_action( 'wp_enqueue_scripts', 'minimal_maison_portfolio_gallery_script_data', 20 );
+
+/**
  * Load script tags as ES modules (Vite).
  *
  * @param string $tag    Script tag.

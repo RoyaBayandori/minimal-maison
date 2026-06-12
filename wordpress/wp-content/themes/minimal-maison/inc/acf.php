@@ -14,6 +14,9 @@ require MM_THEME_DIR . '/inc/acf/front-page-setup.php';
 require MM_THEME_DIR . '/inc/acf/home-content.php';
 require MM_THEME_DIR . '/inc/acf/custom-order-content.php';
 require MM_THEME_DIR . '/inc/acf/custom-order-field-groups.php';
+require MM_THEME_DIR . '/inc/acf/portfolio-content.php';
+require MM_THEME_DIR . '/inc/acf/portfolio-field-groups.php';
+require MM_THEME_DIR . '/inc/acf/portfolio-setup.php';
 require MM_THEME_DIR . '/inc/acf/field-groups.php';
 
 /**

@@ -1,0 +1,240 @@
+{
+    "key": "group_mm_portfolio_page",
+    "title": "Portfolio Page",
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "page-portfolio.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "modified": 1781192400,
+    "fields": [
+        {
+            "key": "field_mm_pf_tab_hero",
+            "label": "Hero",
+            "name": "",
+            "type": "tab",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_hero_eyebrow",
+            "label": "برچسب بالای عنوان",
+            "name": "pf_hero_eyebrow",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_hero_heading",
+            "label": "عنوان اصلی",
+            "name": "pf_hero_heading",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_hero_description",
+            "label": "توضیح",
+            "name": "pf_hero_description",
+            "type": "textarea",
+            "rows": 3,
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_hero_image",
+            "label": "تصویر",
+            "name": "pf_hero_image",
+            "type": "image",
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_hero_cta_label",
+            "label": "متن دکمه",
+            "name": "pf_hero_cta_label",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_hero_cta_url",
+            "label": "لینک دکمه",
+            "name": "pf_hero_cta_url",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_tab_gallery",
+            "label": "Gallery",
+            "name": "",
+            "type": "tab",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_gallery_notice",
+            "label": "نمونه کارها",
+            "name": "",
+            "type": "message",
+            "message": "آیتم‌های گالری از منوی «Creations» مدیریت می‌شوند. تصویر شاخص، عنوان، دسته‌بندی و ترتیب نمایش (Page Attributes) را در هر نمونه کار تنظیم کنید.",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_gallery_eyebrow",
+            "label": "برچسب بخش",
+            "name": "pf_gallery_eyebrow",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_gallery_heading",
+            "label": "عنوان بخش",
+            "name": "pf_gallery_heading",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_gallery_description",
+            "label": "توضیح بخش",
+            "name": "pf_gallery_description",
+            "type": "textarea",
+            "rows": 2,
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_gallery_filter_all_label",
+            "label": "برچسب فیلتر «همه»",
+            "name": "pf_gallery_filter_all_label",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_gallery_view_label",
+            "label": "متن دکمه روی تصویر (هاور)",
+            "name": "pf_gallery_view_label",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_gallery_load_more_label",
+            "label": "متن دکمه «مشاهده آثار بیشتر»",
+            "name": "pf_gallery_load_more_label",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_gallery_empty_message",
+            "label": "پیام گالری خالی",
+            "name": "pf_gallery_empty_message",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_tab_about",
+            "label": "About Atelier",
+            "name": "",
+            "type": "tab",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_about_eyebrow",
+            "label": "برچسب بالای عنوان",
+            "name": "pf_about_eyebrow",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_about_heading",
+            "label": "عنوان",
+            "name": "pf_about_heading",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_about_body",
+            "label": "متن",
+            "name": "pf_about_body",
+            "type": "textarea",
+            "rows": 6,
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_about_image",
+            "label": "تصویر",
+            "name": "pf_about_image",
+            "type": "image",
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_about_cta_label",
+            "label": "متن دکمه",
+            "name": "pf_about_cta_label",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_about_cta_url",
+            "label": "لینک دکمه",
+            "name": "pf_about_cta_url",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_tab_final_cta",
+            "label": "Final CTA",
+            "name": "",
+            "type": "tab",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_final_cta_image",
+            "label": "تصویر",
+            "name": "pf_final_cta_image",
+            "type": "image",
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_final_cta_heading",
+            "label": "عنوان",
+            "name": "pf_final_cta_heading",
+            "type": "textarea",
+            "rows": 2,
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_final_cta_description",
+            "label": "توضیح",
+            "name": "pf_final_cta_description",
+            "type": "textarea",
+            "rows": 2,
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_final_cta_button_label",
+            "label": "متن دکمه",
+            "name": "pf_final_cta_button_label",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        },
+        {
+            "key": "field_mm_pf_final_cta_button_url",
+            "label": "لینک دکمه",
+            "name": "pf_final_cta_button_url",
+            "type": "text",
+            "parent": "group_mm_portfolio_page"
+        }
+    ]
+}

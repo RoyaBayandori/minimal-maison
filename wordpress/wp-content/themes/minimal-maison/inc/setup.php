@@ -47,6 +47,7 @@ function minimal_maison_setup(): void {
 	);
 
 	add_image_size( 'mm-product-card', 600, 750, true );
+	add_image_size( 'mm-portfolio-gallery', 1400, 0, false );
 }
 add_action( 'after_setup_theme', 'minimal_maison_setup' );
 
@@ -63,6 +64,10 @@ function minimal_maison_body_classes( array $classes ): array {
 
 	if ( is_page_template( 'page-custom-order.php' ) ) {
 		$classes[] = 'mm-custom-order-page';
+	}
+
+	if ( is_page_template( 'page-portfolio.php' ) || is_page_template( 'page-portfolio-archive.php' ) ) {
+		$classes[] = 'mm-portfolio-page';
 	}
 
 	return $classes;
