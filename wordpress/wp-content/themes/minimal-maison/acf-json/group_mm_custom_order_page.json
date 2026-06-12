@@ -16,7 +16,7 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "active": true,
-    "modified": 1781175672,
+    "modified": 1781188800,
     "fields": [
         {
             "key": "field_mm_co_tab_hero",
@@ -488,11 +488,22 @@
             "selected": 0
         },
         {
+            "key": "field_mm_co_final_cta_image",
+            "label": "تصویر",
+            "name": "co_final_cta_image",
+            "type": "image",
+            "menu_order": 29,
+            "parent": "group_mm_custom_order_page",
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all"
+        },
+        {
             "key": "field_mm_co_final_cta_heading",
             "label": "عنوان",
             "name": "co_final_cta_heading",
             "type": "textarea",
-            "menu_order": 29,
+            "menu_order": 30,
             "parent": "group_mm_custom_order_page",
             "rows": 2
         },
@@ -501,7 +512,7 @@
             "label": "توضیح",
             "name": "co_final_cta_description",
             "type": "textarea",
-            "menu_order": 30,
+            "menu_order": 31,
             "parent": "group_mm_custom_order_page",
             "rows": 2
         },
@@ -510,7 +521,7 @@
             "label": "متن دکمه",
             "name": "co_final_cta_button_label",
             "type": "text",
-            "menu_order": 31,
+            "menu_order": 32,
             "parent": "group_mm_custom_order_page"
         },
         {
@@ -518,7 +529,7 @@
             "label": "لینک دکمه",
             "name": "co_final_cta_button_url",
             "type": "text",
-            "menu_order": 32,
+            "menu_order": 33,
             "parent": "group_mm_custom_order_page"
         }
     ]

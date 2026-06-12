@@ -155,6 +155,15 @@ function mm_acf_co_page_field_definitions(): array {
 				'type'  => 'tab',
 			),
 			array(
+				'key'           => 'field_mm_co_final_cta_image',
+				'label'         => __( 'تصویر', 'minimal-maison' ),
+				'name'          => 'co_final_cta_image',
+				'type'          => 'image',
+				'return_format' => 'id',
+				'preview_size'  => 'medium',
+				'library'       => 'all',
+			),
+			array(
 				'key'   => 'field_mm_co_final_cta_heading',
 				'label' => __( 'عنوان', 'minimal-maison' ),
 				'name'  => 'co_final_cta_heading',
