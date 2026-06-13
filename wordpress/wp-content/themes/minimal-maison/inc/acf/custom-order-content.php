@@ -12,6 +12,11 @@ require_once MM_THEME_DIR . '/inc/acf/co-benefit-fields.php';
 require_once MM_THEME_DIR . '/inc/acf/co-process-step-fields.php';
 
 /**
+ * HTML id of the request form section on the Custom Order page.
+ */
+const MM_CUSTOM_ORDER_FORM_ANCHOR = 'request-form';
+
+/**
  * Whether the current request uses the Custom Order page template.
  *
  * @return bool
@@ -46,6 +51,76 @@ function mm_custom_order_page_id(): int {
 	$post_id = 0;
 
 	return $post_id;
+}
+
+/**
+ * Resolve the published Custom Order page ID from any request context.
+ *
+ * @return int
+ */
+function mm_get_custom_order_page_id(): int {
+	static $resolved_id = null;
+
+	if ( null !== $resolved_id ) {
+		return $resolved_id;
+	}
+
+	$current_id = mm_custom_order_page_id();
+
+	if ( $current_id > 0 ) {
+		$resolved_id = $current_id;
+		return $resolved_id;
+	}
+
+	$pages = get_posts(
+		array(
+			'post_type'              => 'page',
+			'posts_per_page'         => 1,
+			'post_status'            => 'publish',
+			'fields'                 => 'ids',
+			'meta_key'               => '_wp_page_template',
+			'meta_value'             => 'page-custom-order.php',
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
+		)
+	);
+
+	$resolved_id = ! empty( $pages ) ? (int) $pages[0] : 0;
+
+	return $resolved_id;
+}
+
+/**
+ * Permalink for the Custom Order landing page.
+ *
+ * @return string
+ */
+function mm_custom_order_page_url(): string {
+	$page_id = mm_get_custom_order_page_id();
+
+	if ( $page_id <= 0 ) {
+		return '#';
+	}
+
+	$permalink = get_permalink( $page_id );
+
+	return $permalink ? (string) $permalink : '#';
+}
+
+/**
+ * Custom Order page URL scrolled to the request form section.
+ *
+ * @return string
+ */
+function mm_custom_order_form_url(): string {
+	$url = mm_custom_order_page_url();
+
+	if ( '#' === $url ) {
+		return $url;
+	}
+
+	return $url . '#' . MM_CUSTOM_ORDER_FORM_ANCHOR;
 }
 
 /**

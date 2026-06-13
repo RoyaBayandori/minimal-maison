@@ -14,7 +14,7 @@ if ( ! mm_pf_should_show_final_cta() ) {
 $heading_lines = mm_pf_textarea_lines( 'pf_final_cta_heading' );
 $description   = trim( mm_pf_option( 'pf_final_cta_description' ) );
 $button_label  = trim( mm_pf_option( 'pf_final_cta_button_label' ) );
-$button_url    = mm_pf_url( 'pf_final_cta_button_url' );
+$button_url    = mm_custom_order_form_url();
 $image_id      = mm_pf_image_id( 'pf_final_cta_image' );
 $has_image     = $image_id > 0;
 

@@ -65,7 +65,7 @@ $rail_label  = '' !== $title ? $title : __( 'Featured creations', 'minimal-maiso
 				<div class="mm-featured-creations__actions">
 					<a
 						class="mm-featured-creations__cta"
-						href="<?php echo esc_url( mm_home_acf_url( 'featured_creations_cta_url' ) ); ?>"
+						href="<?php echo esc_url( mm_portfolio_page_url() ); ?>"
 					>
 						<?php echo esc_html( mm_featured_creations_cta_label() ); ?>
 					</a>

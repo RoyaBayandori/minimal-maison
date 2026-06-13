@@ -29,7 +29,7 @@ $grid_classes  = 'site-footer__grid site-footer__grid--lg-' . $grid_columns;
 			</div>
 
 			<?php if ( $has_contact ) : ?>
-				<div class="site-footer__contact">
+				<div class="site-footer__contact" id="footer-contact" tabindex="-1">
 					<h2 class="site-footer__heading">
 						<?php esc_html_e( 'تماس با ما', 'minimal-maison' ); ?>
 					</h2>

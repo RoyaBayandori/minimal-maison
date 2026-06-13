@@ -89,18 +89,7 @@ if ( $is_home_header ) {
 						__( 'منوی راست', 'minimal-maison' )
 					);
 				}
-
-				if ( class_exists( 'WooCommerce' ) && ! is_front_page() ) :
-					?>
-					<a
-						href="<?php echo esc_url( wc_get_cart_url() ); ?>"
-						class="site-header__cart"
-						aria-label="<?php esc_attr_e( 'سبد خرید', 'minimal-maison' ); ?>"
-					>
-						<?php esc_html_e( 'سبد', 'minimal-maison' ); ?>
-						<span class="site-header__cart-count">(<?php echo esc_html( (string) WC()->cart->get_cart_contents_count() ); ?>)</span>
-					</a>
-				<?php endif; ?>
+				?>
 			</div>
 		</div>
 	</div>
@@ -119,16 +108,6 @@ if ( $is_home_header ) {
 					)
 				);
 				?>
-
-				<?php if ( class_exists( 'WooCommerce' ) && ! is_front_page() ) : ?>
-					<a
-						href="<?php echo esc_url( wc_get_cart_url() ); ?>"
-						class="site-mobile-nav__cart"
-					>
-						<?php esc_html_e( 'سبد خرید', 'minimal-maison' ); ?>
-						<span class="site-header__cart-count">(<?php echo esc_html( (string) WC()->cart->get_cart_contents_count() ); ?>)</span>
-					</a>
-				<?php endif; ?>
 			</nav>
 		</div>
 	<?php endif; ?>

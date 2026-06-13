@@ -31,8 +31,45 @@ function mm_maison_env_string( string $name ): string {
  * @param string $value Full wa.me URL or phone number.
  * @return string
  */
+function mm_maison_normalize_ascii_digits( string $value ): string {
+	static $digit_map = null;
+
+	if ( null === $digit_map ) {
+		$digit_map = array(
+			'۰' => '0',
+			'۱' => '1',
+			'۲' => '2',
+			'۳' => '3',
+			'۴' => '4',
+			'۵' => '5',
+			'۶' => '6',
+			'۷' => '7',
+			'۸' => '8',
+			'۹' => '9',
+			'٠' => '0',
+			'١' => '1',
+			'٢' => '2',
+			'٣' => '3',
+			'٤' => '4',
+			'٥' => '5',
+			'٦' => '6',
+			'٧' => '7',
+			'٨' => '8',
+			'٩' => '9',
+		);
+	}
+
+	return strtr( $value, $digit_map );
+}
+
+/**
+ * Build a WhatsApp deep link from a URL or phone string.
+ *
+ * @param string $value Full wa.me URL or phone number.
+ * @return string
+ */
 function mm_maison_whatsapp_url_from_value( string $value ): string {
-	$value = trim( $value );
+	$value = trim( mm_maison_normalize_ascii_digits( $value ) );
 
 	if ( '' === $value ) {
 		return '';

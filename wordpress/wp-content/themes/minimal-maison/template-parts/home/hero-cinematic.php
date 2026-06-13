@@ -10,8 +10,8 @@ defined( 'ABSPATH' ) || exit;
 $eyebrow              = trim( (string) mm_home_acf_value( 'hero_eyebrow' ) );
 $heading              = trim( (string) mm_home_acf_value( 'hero_heading' ) );
 $lede                 = trim( (string) mm_home_acf_value( 'hero_banner_text' ) );
-$primary_cta_label    = trim( (string) mm_home_acf_value( 'hero_primary_cta_label' ) );
-$primary_cta_url      = mm_home_acf_url( 'hero_primary_cta_url' );
+	$primary_cta_label    = trim( (string) mm_home_acf_value( 'hero_primary_cta_label' ) );
+	$primary_cta_url      = mm_custom_order_form_url();
 $secondary_cta_label  = trim( (string) mm_home_acf_value( 'hero_secondary_cta_label' ) );
 $secondary_cta_url    = mm_home_acf_url( 'hero_secondary_cta_url' );
 $hero_image           = mm_render_home_hero_picture(

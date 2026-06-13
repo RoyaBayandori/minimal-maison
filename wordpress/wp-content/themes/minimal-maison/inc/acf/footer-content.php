@@ -129,7 +129,17 @@ function mm_footer_social_links(): array {
 	$links    = array();
 
 	foreach ( $channels as $field_name => $label ) {
-		$url = esc_url( mm_footer_acf_value( $field_name ) );
+		$raw = mm_footer_acf_value( $field_name );
+
+		if ( '' === $raw ) {
+			continue;
+		}
+
+		if ( 'footer_whatsapp' === $field_name ) {
+			$url = mm_maison_whatsapp_url_from_value( $raw );
+		} else {
+			$url = esc_url( $raw );
+		}
 
 		if ( '' === $url ) {
 			continue;

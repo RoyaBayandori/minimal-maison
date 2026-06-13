@@ -17,7 +17,7 @@ $heading      = trim( mm_pf_option( 'pf_hero_heading' ) );
 $description  = trim( mm_pf_option( 'pf_hero_description' ) );
 $eyebrow      = trim( mm_pf_option( 'pf_hero_eyebrow' ) );
 $cta_label    = trim( mm_pf_option( 'pf_hero_cta_label' ) );
-$cta_url      = mm_pf_url( 'pf_hero_cta_url' );
+$cta_url      = mm_custom_order_form_url();
 $image_markup = mm_pf_render_image( 'pf_hero_image' );
 $has_image    = '' !== $image_markup;
 ?>

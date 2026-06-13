@@ -211,6 +211,126 @@ function initMobileNav() {
 }
 
 /**
+ * Footer contact anchor — smooth scroll with sticky header offset.
+ */
+function initFooterContactScroll() {
+	const TARGET_ID = 'footer-contact';
+
+	const getHeaderOffset = () => {
+		const header = document.querySelector( '.site-header' );
+		return header ? Math.ceil( header.getBoundingClientRect().height ) + 12 : 0;
+	};
+
+	const syncScrollPadding = () => {
+		document.documentElement.style.setProperty(
+			'--mm-header-offset',
+			`${ getHeaderOffset() }px`
+		);
+	};
+
+	const scrollToFooterContact = ( { focus = false, behavior = 'smooth' } = {} ) => {
+		const target = document.getElementById( TARGET_ID );
+
+		if ( ! target ) {
+			return false;
+		}
+
+		const reducedMotion = window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+		const top =
+			window.scrollY + target.getBoundingClientRect().top - getHeaderOffset();
+
+		window.scrollTo( {
+			top: Math.max( 0, top ),
+			behavior: reducedMotion ? 'auto' : behavior,
+		} );
+
+		if ( focus ) {
+			target.focus( { preventScroll: true } );
+		}
+
+		return true;
+	};
+
+	const isFooterContactUrl = ( url ) => url.hash.replace( '#', '' ) === TARGET_ID;
+
+	const isHomePath = ( pathname ) => {
+		const home = new URL( '/', window.location.origin ).pathname.replace( /\/$/, '' );
+		const current = pathname.replace( /\/$/, '' );
+
+		return current === home || '' === current;
+	};
+
+	const closeMobileNav = () => {
+		const mobileToggle = document.querySelector( '.site-header__menu-toggle' );
+		const mobilePanel = document.getElementById( 'site-mobile-nav' );
+
+		if (
+			! mobileToggle ||
+			! mobilePanel ||
+			mobileToggle.getAttribute( 'aria-expanded' ) !== 'true'
+		) {
+			return;
+		}
+
+		mobileToggle.setAttribute( 'aria-expanded', 'false' );
+		mobileToggle.setAttribute( 'aria-label', 'باز کردن منو' );
+		mobilePanel.hidden = true;
+		mobilePanel.classList.remove( 'is-open' );
+	};
+
+	document.addEventListener( 'click', ( event ) => {
+		const link = event.target.closest( 'a[href*="#footer-contact"]' );
+
+		if ( ! link ) {
+			return;
+		}
+
+		const url = new URL( link.href, window.location.href );
+
+		if ( ! isFooterContactUrl( url ) ) {
+			return;
+		}
+
+		const hashOnly = link.getAttribute( 'href' ).startsWith( '#' );
+
+		if ( hashOnly || isHomePath( url.pathname ) ) {
+			if ( ! hashOnly && ! isHomePath( window.location.pathname ) ) {
+				return;
+			}
+
+			event.preventDefault();
+
+			if ( history.replaceState ) {
+				history.replaceState( null, '', `#${ TARGET_ID }` );
+			} else {
+				window.location.hash = TARGET_ID;
+			}
+
+			scrollToFooterContact( { focus: true } );
+			closeMobileNav();
+		}
+	} );
+
+	const handleHash = () => {
+		if ( window.location.hash.replace( '#', '' ) !== TARGET_ID ) {
+			return;
+		}
+
+		window.requestAnimationFrame( () => {
+			scrollToFooterContact( { focus: true, behavior: 'auto' } );
+		} );
+	};
+
+	syncScrollPadding();
+	window.addEventListener( 'resize', syncScrollPadding, { passive: true } );
+	window.addEventListener( 'hashchange', handleHash );
+
+	if ( window.location.hash ) {
+		handleHash();
+	}
+}
+
+/**
  * FAQ accordion — Custom Order landing page only.
  */
 function initCustomOrderFaq() {
@@ -590,6 +710,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	initCraftProcessPreview();
 	initFeaturedCreationsRail();
 	initMobileNav();
+	initFooterContactScroll();
 	initCustomOrderFaq();
 	initPortfolioGallery();
 
